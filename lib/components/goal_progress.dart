@@ -1,0 +1,65 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:week_challenge_52/models/goal.dart';
+
+class GoalProgress extends StatelessWidget {
+  Goal goal;
+  GoalProgress({super.key, required this.goal});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 450,
+      width: 357,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 32,
+            left: 51,
+            right: 50,
+            child: CircularPercentIndicator(
+              radius: 120.0,
+              animateFromLastPercent: true,
+              lineWidth: 15.0,
+              percent: goal.getPercent(),
+              arcBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),
+              arcType: ArcType.HALF,
+              circularStrokeCap: CircularStrokeCap.butt,
+              progressColor: const Color.fromRGBO(16, 159, 40, 1),
+            ),
+          ),
+          Positioned(
+            top: 96,
+            left: 156,
+            bottom: 131,
+            child: SizedBox(
+              width: 64,
+              height: 30,
+              child: Text(
+                "${(goal.getPercent() * 100).toInt()} %",
+                style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(16, 159, 40, 1)),
+              ),
+            ),
+          ),
+          Positioned(
+              top: 136,
+              left: 112,
+              right: 110,
+              bottom: 105,
+              child: Text(
+                "RS.${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color.fromRGBO(102, 102, 102, 1),
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+}

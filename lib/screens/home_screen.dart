@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, avoid_print
-
 import 'package:flutter/material.dart';
+import 'package:week_challenge_52/models/goal.dart';
+import 'package:week_challenge_52/screens/about_screen.dart';
+import 'package:week_challenge_52/screens/goals_screen.dart';
+import 'package:week_challenge_52/screens/add_goal_screen.dart';
+import 'package:week_challenge_52/service/goal_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,87 +14,137 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Widget buildBottomBar() => BottomNavigationBar(
-        iconSize: 30,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.stairs_outlined),
-            label: 'Goals',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            backgroundColor: Colors.white,
-            label: "",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_outlined),
-            label: 'Learn',
-          ),
-        ],
-      );
-  Widget buildNavigateButton() => SizedBox(
-        width: 70,
-        height: 70,
-        child: FittedBox(
-          child: FloatingActionButton(
-            backgroundColor: Colors.green,
-            onPressed: () {},
-            child: Icon(Icons.add),
-          ),
-        ),
-      );
+  int _selectedIndex = 0;
+  List<Goal> goalList = GoalService().fetchGoalList();
+  final List<Widget> _screens = [
+    GoalsScreen(),
+    GoalsScreen(),
+    AboutScreen(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBar(),
       backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-      body: Column(children: [
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: const [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: Color.fromRGBO(77, 182, 76, 1),
-                child: CircleAvatar(
-                  radius: 12,
-                  backgroundImage: AssetImage('assets/images/piggy.png'),
-                ),
-              ),
-              SizedBox(width: 64),
-              Text(
-                "52 Weeks",
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 30),
-        SizedBox(
-            height: 251,
-            width: 210,
-            child:
-                Image.asset('assets/images/money.png', fit: BoxFit.fitHeight)),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(53, 30, 53, 16),
-          child: SizedBox(
-            height: 60,
-            width: 269,
-            child: Text(
-              "Oops! You have no registered goals",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-          child: Text("Add new goals using the button(+)"),
-        )
-      ]),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: buildBottomBar(),
       floatingActionButton: buildNavigateButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  PreferredSize appBar() {
+    if (_selectedIndex == 0) {
+      return PreferredSize(
+          child: AppBar(
+            backgroundColor: backgroundColor(),
+            leading: CircleAvatar(
+              radius: 20,
+              backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+              child: Image.asset(
+                'assets/images/piggy.png',
+                height: 44,
+                width: 44,
+              ),
+            ),
+            title: Text(
+              "52 Weeks",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            actions: [
+              Image.asset(
+                'assets/images/crown.png',
+                height: 30,
+                width: 30,
+              )
+            ],
+          ),
+          preferredSize: Size.fromHeight(72));
+    } else {
+      return PreferredSize(
+        child: AppBar(
+          backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+          title: const Text(
+            "About",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        preferredSize: Size.fromHeight(50),
+      );
+    }
+  }
+
+  Color backgroundColor() {
+    if (goalList.isEmpty) {
+      return const Color.fromRGBO(242, 239, 248, 1);
+    } else {
+      return Color.fromARGB(255, 248, 248, 248);
+    }
+  }
+
+  Widget buildBottomBar() => SizedBox(
+        height: 90,
+        child: BottomNavigationBar(
+          iconSize: 30,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.stairs_outlined),
+              label: 'Goals',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add, color: Colors.white, size: 0),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book_outlined),
+              label: 'Learn',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Color.fromARGB(255, 63, 155, 66),
+          unselectedItemColor: Color.fromARGB(102, 102, 102, 1),
+          onTap: _onItemTapped,
+        ),
+      );
+
+  Widget buildNavigateButton() => SizedBox(
+        width: 70,
+        height: 70,
+        child: FloatingActionButton(
+          backgroundColor: Colors.green,
+          onPressed: () {
+            Goal goal = Goal(
+              id: goalList.length,
+              name: "",
+              savingsChoice: SavingsChoice.weekly,
+              savingsType: SavingsType.constant,
+              initialDeposit: 0,
+              startDate: "",
+              savings: 0,
+              currentWeekOrMonth: 4,
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddGoal(goal: goal),
+              ),
+            );
+          },
+          child: Icon(Icons.add),
+        ),
+      );
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
