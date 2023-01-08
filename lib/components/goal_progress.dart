@@ -11,7 +11,7 @@ class GoalProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 450,
+      height: 300,
       width: 357,
       child: Stack(
         children: [
@@ -25,15 +25,15 @@ class GoalProgress extends StatelessWidget {
               lineWidth: 15.0,
               percent: goal.getPercent(),
               arcBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),
-              arcType: ArcType.HALF,
+              arcType: ArcType.FULL,
               circularStrokeCap: CircularStrokeCap.butt,
               progressColor: const Color.fromRGBO(16, 159, 40, 1),
             ),
           ),
           Positioned(
-            top: 96,
+            top: 120,
             left: 156,
-            bottom: 131,
+            right: 140,
             child: SizedBox(
               width: 64,
               height: 30,
@@ -47,17 +47,40 @@ class GoalProgress extends StatelessWidget {
             ),
           ),
           Positioned(
-              top: 136,
-              left: 112,
-              right: 110,
-              bottom: 105,
-              child: Text(
-                "RS.${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color.fromRGBO(102, 102, 102, 1),
-                ),
-              ))
+            top: 160,
+            left: 112,
+            right: 110,
+            bottom: 105,
+            child: Text(
+              "RS.${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
+              style: const TextStyle(
+                fontSize: 14,
+                color: Color.fromRGBO(102, 102, 102, 1),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 250,
+            left: 85,
+            child: Text(
+              "${(goal.getPercent() * 100).toInt()} %",
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ),
+          const Positioned(
+            top: 250,
+            right: 80,
+            child: Text(
+              "100%",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ),
         ],
       ),
     );

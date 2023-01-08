@@ -30,7 +30,7 @@ class AccessButton extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          ((title == "Back") ? "Back" : "Next"),
+          title,
           style: TextStyle(
               fontSize: 18,
               color: (title == "Back")
