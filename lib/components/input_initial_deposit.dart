@@ -1,11 +1,13 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class InputInitialDeposit extends StatelessWidget {
   Goal goal;
-  InputInitialDeposit({super.key, required this.goal});
+  void Function(double initialDeposit) onInput;
+  InputInitialDeposit({super.key, required this.goal, required this.onInput});
 
   String getSavingsChoice() {
     if (goal.savingsChoiceText() == "Weekly") {
@@ -17,15 +19,10 @@ class InputInitialDeposit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String space = " ";
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text(
-          "How much do you want to save per week?",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
+        HeadingComponent(title: "How much do you want to save per week?"),
         const SizedBox(height: 24),
         SizedBox(
           height: 48,
@@ -35,6 +32,13 @@ class InputInitialDeposit extends StatelessWidget {
                   OutlineInputBorder(borderRadius: BorderRadius.circular(80)),
               labelText: 'Rs.100 is already a good start',
             ),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                double initialDeposit = double.parse(value);
+                onInput(initialDeposit);
+              }
+            },
+            keyboardType: TextInputType.number,
           ),
         ),
         const SizedBox(height: 14),
@@ -79,29 +83,27 @@ class InputInitialDeposit extends StatelessWidget {
                       width: 50,
                     ),
                     const SizedBox(width: 20),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            '''At the end of the challenge you
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          '''At the end of the challenge you
              will have saved''',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(85, 85, 85, 1),
-                            ),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(85, 85, 85, 1),
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            (goal.getTotalSavings() == 0.0)
-                                ? '-'
-                                : '${goal.getTotalSavings()}',
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          (goal.getTotalSavings() == 0.0)
+                              ? '-'
+                              : '${goal.getTotalSavings()}',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )
+                      ],
                     )
                   ],
                 )),

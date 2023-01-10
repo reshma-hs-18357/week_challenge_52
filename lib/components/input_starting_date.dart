@@ -1,8 +1,13 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:week_challenge_52/components/heading_component.dart';
+import 'package:week_challenge_52/models/goal.dart';
 
 class InputStartDate extends StatefulWidget {
-  const InputStartDate({super.key});
+  Goal goal;
+  void Function(DateTime value) onPick;
+  InputStartDate({super.key, required this.goal, required this.onPick});
 
   @override
   State<InputStartDate> createState() => _InputStartDateState();
@@ -14,22 +19,22 @@ class _InputStartDateState extends State<InputStartDate> {
   @override
   void initState() {
     super.initState();
-    datecntrl.text = "";
+    String showDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
+    datecntrl.text = showDate;
   }
 
   void datePicker() async {
     DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(1900),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2024));
 
     if (pickedDate != null) {
-      print(pickedDate);
-      String formattedDate = DateFormat('dd/mmyyyy').format(pickedDate);
-      print(formattedDate);
+      String showDate = DateFormat('MMM dd, yyyy').format(pickedDate);
       setState(() {
-        datecntrl.text = formattedDate;
+        datecntrl.text = showDate;
+        widget.onPick(pickedDate);
       });
     } else {}
   }
@@ -41,15 +46,13 @@ class _InputStartDateState extends State<InputStartDate> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "From when do you want to start saving?",
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
+          HeadingComponent(title: "From when do you want to start saving?"),
           const SizedBox(height: 24),
           SizedBox(
             height: 48,
             child: TextField(
+              keyboardType: TextInputType.none,
+              controller: datecntrl,
               decoration: InputDecoration(
                 focusColor: const Color.fromRGBO(21, 131, 36, 1),
                 border:

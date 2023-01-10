@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:week_challenge_52/screens/detail_view_screen.dart';
@@ -10,6 +11,7 @@ class GoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String endDateString = DateFormat('dd MMM yyyy').format(goal.getendDate());
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -67,7 +69,7 @@ class GoalCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
                 child: Text(
-                  "Rs.${goal.savings}",
+                  "Rs.${goal.getTotalSavings()}",
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -114,7 +116,7 @@ class GoalCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Ends: ${goal.startDate}",
+                      "Ends: $endDateString",
                       style: const TextStyle(
                         fontSize: 12,
                         color: Color.fromRGBO(102, 102, 102, 1),

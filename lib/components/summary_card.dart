@@ -1,27 +1,28 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:intl/intl.dart';
 
 class SummaryCard extends StatelessWidget {
   Goal goal;
-  SummaryCard({super.key, required this.goal});
+  void Function() onStartButtonTapped;
+  SummaryCard(
+      {super.key, required this.goal, required this.onStartButtonTapped});
 
   @override
   Widget build(BuildContext context) {
     var date = DateTime.now();
     String currentDay = DateFormat('EEEE').format(date);
+    String startDateString = DateFormat('dd/MM/yyyy').format(goal.startDate);
+    String endDateString = DateFormat('dd/MM/yyyy').format(goal.getendDate());
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            "Summary of your challenge",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
+          HeadingComponent(title: "Summary of your challenge"),
           const SizedBox(height: 16),
           Card(
             elevation: 10,
@@ -44,7 +45,7 @@ class SummaryCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    goal.startDate,
+                    goal.name,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
@@ -76,7 +77,7 @@ class SummaryCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            goal.startDate,
+                            startDateString,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -113,7 +114,7 @@ class SummaryCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            goal.startDate,
+                            endDateString,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -180,9 +181,8 @@ class SummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 60),
-          // AccessButton(title: "Start", onPressed: () {})
           TextButton(
-            onPressed: () {},
+            onPressed: onStartButtonTapped,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
                   const Color.fromRGBO(21, 131, 36, 1)),

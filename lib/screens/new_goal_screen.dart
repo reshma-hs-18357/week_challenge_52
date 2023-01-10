@@ -1,28 +1,124 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
-import 'package:week_challenge_52/components/access_button.dart';
+import 'package:intl/intl.dart';
+import 'package:week_challenge_52/components/back_button.dart';
 import 'package:week_challenge_52/components/input_initial_deposit.dart';
 import 'package:week_challenge_52/components/input_goal_name.dart';
 import 'package:week_challenge_52/components/input_starting_date.dart';
+import 'package:week_challenge_52/components/next_button.dart';
 import 'package:week_challenge_52/components/select_goal_type.dart';
 import 'package:week_challenge_52/components/step_indicator.dart';
 import 'package:week_challenge_52/components/summary_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:week_challenge_52/screens/home_screen.dart';
+import 'package:week_challenge_52/service/goal_service.dart';
 
 class NewGoalScreen extends StatefulWidget {
+  List<Goal> goalList;
   Goal goal;
-  NewGoalScreen({super.key, required this.goal});
+
+  NewGoalScreen({super.key, required this.goal, required this.goalList});
 
   @override
   State<NewGoalScreen> createState() => _NewGoalScreenState();
 }
 
 class _NewGoalScreenState extends State<NewGoalScreen> {
-  int step = 1;
+  late int index;
+  late bool valid;
+  late Widget comp;
+
+  @override
+  void initState() {
+    index = 0;
+    valid = false;
+    super.initState();
+  }
+
+  Widget stepIndicator() {
+    if (index != 4) {
+      return StepIndicator(step: index + 1);
+    } else {
+      return const Text("");
+    }
+  }
+
+  void isValid(String value) {
+    if (value.length >= 3) {
+      setState(() {
+        valid = true;
+        widget.goal.name = value;
+      });
+    } else {
+      setState(() {
+        valid = false;
+      });
+    }
+  }
+
+  void onSelect(SavingsType savingsType) {
+    if (savingsType.index <= 1) {
+      setState(() {
+        valid = true;
+        widget.goal.savingsType = savingsType;
+      });
+    } else {
+      setState(() {
+        valid = false;
+      });
+    }
+  }
+
+  void onInput(double initialDeposit) {
+    if (initialDeposit > 0) {
+      setState(() {
+        valid = true;
+        widget.goal.initialDeposit = initialDeposit;
+      });
+    } else {
+      setState(() {
+        valid = false;
+      });
+    }
+  }
+
+  void onPick(DateTime startDate) {
+    String showDate = DateFormat('MMM dd, yyyy').format(startDate);
+
+    if (showDate.isNotEmpty) {
+      setState(() {
+        valid = true;
+        widget.goal.startDate = startDate;
+      });
+    } else {
+      setState(() {
+        valid = true;
+      });
+    }
+  }
+
+  void onStartButtonTapped() {
+    GoalService().postGoals(widget.goal);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> components = [
+      InputGoalName(goal: widget.goal, isValid: isValid),
+      SelectGoalType(goal: widget.goal, onSelect: onSelect),
+      InputInitialDeposit(goal: widget.goal, onInput: onInput),
+      InputStartDate(goal: widget.goal, onPick: onPick),
+      SummaryCard(
+        goal: widget.goal,
+        onStartButtonTapped: onStartButtonTapped,
+      ),
+    ];
     return Scaffold(
       backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
       appBar: AppBar(
@@ -55,26 +151,37 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
-            StepIndicator(step: 1),
+            stepIndicator(),
             const SizedBox(height: 8),
-            const SelectGoalType(),
-            // InputInitialDeposit(goal: widget.goal),
-            // InputStartDate(),
-            // SummaryCard(goal: widget.goal),
+            comp = components[index],
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AccessButton(
-                    title: "Back",
-                    onPressed: () {},
-                  ),
-                  AccessButton(
-                    title: "Next",
-                    onPressed: () {},
-                  ),
+                  index != 4
+                      ? BackButtonComponent(
+                          onPressed: () {
+                            setState(() {
+                              index -= 1;
+                              comp = components[index];
+                            });
+                          },
+                          index: index)
+                      : const Text(""),
+                  index != 4
+                      ? NextButtonComponent(
+                          isButtonEnabled: valid,
+                          index: index,
+                          onPressed: () {
+                            setState(() {
+                              index += 1;
+                              comp = components[index];
+                              valid = index == 3 ? true : false;
+                            });
+                          })
+                      : const Text(""),
                 ],
               ),
             ),

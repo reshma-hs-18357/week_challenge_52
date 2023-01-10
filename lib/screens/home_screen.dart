@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, avoid_print
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last,
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/about_screen.dart';
@@ -15,19 +15,26 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  List<Goal> goalList = GoalService().fetchGoalList();
-  final List<Widget> _screens = [
-    GoalsScreen(),
-    GoalsScreen(),
-    AboutScreen(),
-  ];
+  List<Goal> goalList = [];
+  List<Widget> screens = [];
+
+  @override
+  void initState() {
+    goalList = GoalService().fetchGoalList();
+    screens = [
+      GoalsScreen(goalList: goalList),
+      GoalsScreen(goalList: goalList),
+      AboutScreen(),
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
       backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-      body: _screens[_selectedIndex],
+      body: screens[_selectedIndex],
       bottomNavigationBar: buildBottomBar(),
       floatingActionButton: buildNavigateButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -39,13 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
       return PreferredSize(
           child: AppBar(
             backgroundColor: backgroundColor(),
-            leading: CircleAvatar(
-              radius: 20,
-              backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-              child: Image.asset(
-                'assets/images/piggy.png',
-                height: 44,
-                width: 44,
+            leading: Padding(
+              padding: const EdgeInsets.all(10),
+              child: CircleAvatar(
+                radius: 22,
+                backgroundColor: backgroundColor(),
+                child: Image.asset(
+                  'assets/images/piggy.png',
+                  height: 44,
+                  width: 44,
+                ),
               ),
             ),
             title: Text(
@@ -56,10 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black),
             ),
             actions: [
-              Image.asset(
-                'assets/images/crown.png',
-                height: 30,
-                width: 30,
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/crown.png',
+                  height: 30,
+                  width: 30,
+                ),
               )
             ],
           ),
@@ -83,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Color backgroundColor() {
-    if (goalList.isEmpty) {
+    if (GoalService().fetchGoalList().isEmpty) {
       return const Color.fromRGBO(242, 239, 248, 1);
     } else {
       return Color.fromARGB(255, 248, 248, 248);
@@ -126,10 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
               name: "",
               savingsChoice: SavingsChoice.weekly,
               savingsType: SavingsType.constant,
-              initialDeposit: 0,
-              startDate: "",
-              savings: 0,
-              currentWeekOrMonth: 4,
+              initialDeposit: 0.00,
+              startDate: DateTime.now(),
+              currentWeekOrMonth: 0,
+              savings: 0.00,
             );
             Navigator.push(
               context,

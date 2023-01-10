@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:week_challenge_52/components/goal_progress.dart';
-import 'package:week_challenge_52/components/week_card.dart';
+import 'package:week_challenge_52/components/text_card.dart';
+import 'package:week_challenge_52/components/week_month_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class GoalDetailView extends StatefulWidget {
@@ -55,10 +55,10 @@ class _GoalDetailViewState extends State<GoalDetailView> {
           var element = listItems[index];
           if (element is GoalProgress) {
             return GoalProgress(goal: widget.goal);
-          } else if (element is Text) {
+          } else if (element is TextCard) {
             return element;
-          } else if (element is WeekCard) {
-            return WeekCard(goal: widget.goal);
+          } else if (element is WeekorMonthCard) {
+            return WeekorMonthCard(goal: widget.goal, weekOrMonth: 1);
           } else {
             return const Text("Null");
           }
@@ -69,16 +69,21 @@ class _GoalDetailViewState extends State<GoalDetailView> {
 
   List<dynamic> prepareListItems() {
     listItems.add(GoalProgress(goal: widget.goal));
-    listItems.add(const Text("Upcoming Deposit"));
-    listItems.add(WeekCard(goal: widget.goal));
-    listItems.add(const Text("All Deposit"));
-    List<WeekCard> remainingWeeks = [];
-    remainingWeeks.add(WeekCard(goal: widget.goal));
-    remainingWeeks.add(WeekCard(goal: widget.goal));
-    remainingWeeks.add(WeekCard(goal: widget.goal));
-    remainingWeeks.add(WeekCard(goal: widget.goal));
-    remainingWeeks.add(WeekCard(goal: widget.goal));
-    remainingWeeks.add(WeekCard(goal: widget.goal));
+    listItems.add(TextCard(text: "Upcoming Deposit"));
+    listItems.add(WeekorMonthCard(goal: widget.goal, weekOrMonth: 1));
+    listItems.add(TextCard(text: "All Deposit"));
+    List<WeekorMonthCard> remainingWeeks = [];
+    if (widget.goal.savingsChoiceText() == "Weekly") {
+      for (int i = 0; i < 51; i++) {
+        remainingWeeks
+            .add(WeekorMonthCard(goal: widget.goal, weekOrMonth: i + 2));
+      }
+    } else {
+      for (int i = 0; i < 11; i++) {
+        remainingWeeks
+            .add(WeekorMonthCard(goal: widget.goal, weekOrMonth: i + 2));
+      }
+    }
     listItems.addAll(remainingWeeks);
     return listItems;
   }

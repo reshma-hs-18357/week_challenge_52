@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 
-class AccessButton extends StatelessWidget {
-  String title;
+class BackButtonComponent extends StatelessWidget {
+  int index;
   void Function() onPressed;
-  AccessButton({Key? key, required this.title, required this.onPressed})
+  BackButtonComponent({Key? key, required this.onPressed, required this.index})
       : super(key: key);
 
   TextStyle textStyle() {
@@ -13,29 +13,30 @@ class AccessButton extends StatelessWidget {
 
   TextButton textButton() {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-            (title == "Back") ? null : const Color.fromRGBO(21, 131, 36, 1)),
+        backgroundColor:
+            MaterialStateProperty.all(const Color.fromRGBO(242, 239, 248, 1)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.0),
             side: BorderSide(
-              color: ((title == "Back")
-                  ? const Color.fromRGBO(21, 131, 36, 1)
-                  : const Color.fromRGBO(217, 217, 217, 1)),
+              color: (index != 0)
+                  ? (const Color.fromRGBO(21, 131, 36, 1))
+                  : const Color.fromRGBO(242, 239, 248, 1),
             ),
           ),
         ),
       ),
       child: Center(
         child: Text(
-          title,
+          "Back",
           style: TextStyle(
-              fontSize: 18,
-              color: (title == "Back")
-                  ? const Color.fromRGBO(21, 131, 36, 1)
-                  : const Color.fromARGB(255, 255, 255, 255)),
+            fontSize: 18,
+            color: (index != 0)
+                ? (const Color.fromRGBO(21, 131, 36, 1))
+                : const Color.fromRGBO(242, 239, 248, 1),
+          ),
         ),
       ),
     );

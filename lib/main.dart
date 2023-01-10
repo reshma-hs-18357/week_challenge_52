@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:week_challenge_52/components/goal_card.dart';
 import 'package:week_challenge_52/screens/home_screen.dart';
 
 void main() {

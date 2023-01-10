@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:intl/intl.dart';
+
 class Goal {
   int id;
   String name;
@@ -7,7 +9,7 @@ class Goal {
   SavingsType savingsType;
   double initialDeposit;
   double savings;
-  String startDate;
+  DateTime startDate;
   int currentWeekOrMonth;
 
   Goal(
@@ -15,9 +17,9 @@ class Goal {
       required this.name,
       required this.savingsChoice,
       required this.initialDeposit,
+      required this.savings,
       required this.startDate,
       required this.savingsType,
-      required this.savings,
       required this.currentWeekOrMonth});
 
   String savingsChoiceText() {
@@ -62,7 +64,6 @@ class Goal {
   }
 
   double getTotalDepositedAmt() {
-    savings;
     if (savingsChoice == SavingsChoice.weekly) {
       if (savingsType == SavingsType.constant) {
         savings = getCurrentWeekOrMonth() * initialDeposit;
@@ -82,6 +83,11 @@ class Goal {
         return savings;
       }
     }
+  }
+
+  DateTime getendDate() {
+    String startDateString = DateFormat('dd/MM/yyyy').format(startDate);
+    return DateTime(startDate.year + 1, startDate.month, startDate.day);
   }
 
   double getPercent() {

@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
-class WeekCard extends StatelessWidget {
+class WeekorMonthCard extends StatelessWidget {
   Goal goal;
-  WeekCard({super.key, required this.goal});
+  int weekOrMonth;
+  WeekorMonthCard({super.key, required this.goal, required this.weekOrMonth});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class WeekCard extends StatelessWidget {
                           color: Colors.black),
                     ),
                     Text(
-                      goal.startDate,
+                      "",
                       style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,

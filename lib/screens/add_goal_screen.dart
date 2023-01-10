@@ -151,7 +151,10 @@ class _AddGoalState extends State<AddGoal> {
   void navigateToNewGoalScreen(Goal goal) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => NewGoalScreen(goal: widget.goal),
+        builder: (context) => NewGoalScreen(
+          goal: widget.goal,
+          goalList: [],
+        ),
       ),
     );
   }
