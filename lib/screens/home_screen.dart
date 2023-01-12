@@ -17,16 +17,29 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   List<Goal> goalList = [];
   List<Widget> screens = [];
+  late GoalService goalService;
+
+  List<Goal> fetchGoalList() {
+    goalList = goalService.fetchGoalList();
+    return goalList;
+  }
 
   @override
   void initState() {
-    goalList = GoalService().fetchGoalList();
-    screens = [
-      GoalsScreen(goalList: goalList),
-      GoalsScreen(goalList: goalList),
-      AboutScreen(),
-    ];
+    goalService = GoalService.instance;
+    setState(() {
+      goalList = fetchGoalList();
+    });
     super.initState();
+    GoalService.instance.addingGoals();
+  }
+
+  Widget returnSelectedIndexWidget(int selectedIndex) {
+    if (selectedIndex == 0 || selectedIndex == 1) {
+      return GoalsScreen(goalList: goalList);
+    } else {
+      return AboutScreen();
+    }
   }
 
   @override
@@ -34,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: appBar(),
       backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-      body: screens[_selectedIndex],
+      body: returnSelectedIndexWidget(_selectedIndex),
       bottomNavigationBar: buildBottomBar(),
       floatingActionButton: buildNavigateButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -42,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   PreferredSize appBar() {
-    if (_selectedIndex == 0) {
+    if (_selectedIndex == 0 || _selectedIndex == 1) {
       return PreferredSize(
           child: AppBar(
             backgroundColor: backgroundColor(),
@@ -96,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Color backgroundColor() {
-    if (GoalService().fetchGoalList().isEmpty) {
+    if (GoalService.instance.fetchGoalList().isEmpty) {
       return const Color.fromRGBO(242, 239, 248, 1);
     } else {
       return Color.fromARGB(255, 248, 248, 248);
@@ -133,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 70,
         child: FloatingActionButton(
           backgroundColor: Colors.green,
-          onPressed: () {
+          onPressed: () async {
             Goal goal = Goal(
               id: goalList.length,
               name: "",
@@ -141,15 +154,20 @@ class _HomeScreenState extends State<HomeScreen> {
               savingsType: SavingsType.constant,
               initialDeposit: 0.00,
               startDate: DateTime.now(),
-              currentWeekOrMonth: 0,
+              completedWeekOrMonth: 5,
               savings: 0.00,
             );
-            Navigator.push(
+            Goal newGoal = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => AddGoal(goal: goal),
               ),
             );
+            // print(newGoal.toString());
+            setState(() {
+              goalService.postGoals(newGoal);
+              goalList = goalService.fetchGoalList();
+            });
           },
           child: Icon(Icons.add),
         ),

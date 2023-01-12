@@ -10,30 +10,20 @@ import 'package:week_challenge_52/components/select_goal_type.dart';
 import 'package:week_challenge_52/components/step_indicator.dart';
 import 'package:week_challenge_52/components/summary_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:week_challenge_52/screens/home_screen.dart';
-import 'package:week_challenge_52/service/goal_service.dart';
 
 class NewGoalScreen extends StatefulWidget {
-  List<Goal> goalList;
   Goal goal;
-
-  NewGoalScreen({super.key, required this.goal, required this.goalList});
+  NewGoalScreen({super.key, required this.goal});
 
   @override
   State<NewGoalScreen> createState() => _NewGoalScreenState();
 }
 
 class _NewGoalScreenState extends State<NewGoalScreen> {
-  late int index;
-  late bool valid;
+  int index = 0;
+  bool valid = false;
   late Widget comp;
-
-  @override
-  void initState() {
-    index = 0;
-    valid = false;
-    super.initState();
-  }
+  bool back = false;
 
   Widget stepIndicator() {
     if (index != 4) {
@@ -98,94 +88,104 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
   }
 
   void onStartButtonTapped() {
-    GoalService().postGoals(widget.goal);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ),
-    );
+    Navigator.of(context).pop();
+    Navigator.of(context).pop(widget.goal);
+  }
+
+  Widget returnComponents(int index, bool back) {
+    if (index == 0) {
+      return InputGoalName(goal: widget.goal, isValid: isValid, back: back);
+    } else if (index == 1) {
+      return SelectGoalType(goal: widget.goal, onSelect: onSelect, back: back);
+    } else if (index == 2) {
+      return InputInitialDeposit(
+          goal: widget.goal, onInput: onInput, back: back);
+    } else if (index == 3) {
+      return InputStartDate(goal: widget.goal, onPick: onPick);
+    } else if (index == 4) {
+      return SummaryCard(
+          goal: widget.goal, onStartButtonTapped: onStartButtonTapped);
+    } else {
+      return const Text("");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> components = [
-      InputGoalName(goal: widget.goal, isValid: isValid),
-      SelectGoalType(goal: widget.goal, onSelect: onSelect),
-      InputInitialDeposit(goal: widget.goal, onInput: onInput),
-      InputStartDate(goal: widget.goal, onPick: onPick),
-      SummaryCard(
-        goal: widget.goal,
-        onStartButtonTapped: onStartButtonTapped,
-      ),
-    ];
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
         backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-        title: Text(
-          "New ${widget.goal.savingsChoiceText()} Goal",
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Color.fromRGBO(1, 54, 77, 1),
-          ),
-        ),
-        leadingWidth: 75,
-        leading: TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text(
-            "Cancel",
-            style: TextStyle(
-              fontSize: 16,
-              color: Color.fromRGBO(153, 153, 153, 1),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+          title: Text(
+            "New ${widget.goal.savingsChoiceText()} Goal",
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(1, 54, 77, 1),
             ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            stepIndicator(),
-            const SizedBox(height: 8),
-            comp = components[index],
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  index != 4
-                      ? BackButtonComponent(
-                          onPressed: () {
-                            setState(() {
-                              index -= 1;
-                              comp = components[index];
-                            });
-                          },
-                          index: index)
-                      : const Text(""),
-                  index != 4
-                      ? NextButtonComponent(
-                          isButtonEnabled: valid,
-                          index: index,
-                          onPressed: () {
-                            setState(() {
-                              index += 1;
-                              comp = components[index];
-                              valid = index == 3 ? true : false;
-                            });
-                          })
-                      : const Text(""),
-                ],
+          leadingWidth: 75,
+          leading: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              "Cancel",
+              style: TextStyle(
+                fontSize: 16,
+                color: Color.fromRGBO(153, 153, 153, 1),
               ),
             ),
-          ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              stepIndicator(),
+              const SizedBox(height: 8),
+              comp = returnComponents(index, back),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    index != 4 && index != 0
+                        ? BackButtonComponent(
+                            onPressed: () {
+                              setState(() {
+                                back = true;
+                                valid = true;
+                                index -= 1;
+                                comp = returnComponents(index, back);
+                              });
+                            },
+                            index: index)
+                        : const Text("            "),
+                    index != 4
+                        ? NextButtonComponent(
+                            isButtonEnabled: valid,
+                            index: index,
+                            onPressed: () {
+                              setState(() {
+                                index += 1;
+                                back = false;
+                                comp = returnComponents(index, back);
+                                valid =
+                                    (index == 3 || back == true) ? true : false;
+                              });
+                            })
+                        : const Text(""),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

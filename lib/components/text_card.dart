@@ -7,15 +7,18 @@ class TextCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: const Color.fromRGBO(242, 239, 248, 1),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(text,
-            style: const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: Color.fromRGBO(102, 102, 102, 1))),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 6),
+      child: Container(
+        color: const Color.fromRGBO(242, 239, 248, 1),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+          child: Text(text,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Color.fromRGBO(102, 102, 102, 1))),
+        ),
       ),
     );
   }

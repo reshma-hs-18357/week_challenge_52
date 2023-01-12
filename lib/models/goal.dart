@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:intl/intl.dart';
+import 'package:week_challenge_52/models/goal_progress_model.dart';
 
 class Goal {
   int id;
@@ -10,17 +10,23 @@ class Goal {
   double initialDeposit;
   double savings;
   DateTime startDate;
-  int currentWeekOrMonth;
+  int completedWeekOrMonth;
 
-  Goal(
-      {required this.id,
-      required this.name,
-      required this.savingsChoice,
-      required this.initialDeposit,
-      required this.savings,
-      required this.startDate,
-      required this.savingsType,
-      required this.currentWeekOrMonth});
+  Goal({
+    required this.id,
+    required this.name,
+    required this.savingsChoice,
+    required this.initialDeposit,
+    required this.savings,
+    required this.startDate,
+    required this.savingsType,
+    required this.completedWeekOrMonth,
+  });
+
+  @override
+  String toString() {
+    return "Name: $name, id: $id, savings Choice: ${savingsChoiceText()}, savings type: ${savingsTypeText()}, initial deposit: $initialDeposit, savings: ${getTotalSavings()}, start date: $startDate";
+  }
 
   String savingsChoiceText() {
     if (savingsChoice == SavingsChoice.weekly) {
@@ -28,10 +34,6 @@ class Goal {
     } else {
       return "Monthly";
     }
-  }
-
-  int getCurrentWeekOrMonth() {
-    return 4;
   }
 
   String savingsTypeText() {
@@ -49,7 +51,7 @@ class Goal {
         savings = 52 * initialDeposit;
         return savings;
       } else {
-        savings = 23 * (2 * initialDeposit + 51);
+        savings = 26 * (2 * initialDeposit + 51 * initialDeposit);
         return savings;
       }
     } else {
@@ -57,36 +59,42 @@ class Goal {
         savings = 12 * initialDeposit;
         return savings;
       } else {
-        savings = 6 * (2 * initialDeposit + 11);
+        savings = 6 * (2 * initialDeposit + 11 * initialDeposit);
         return savings;
       }
     }
   }
 
   double getTotalDepositedAmt() {
-    if (savingsChoice == SavingsChoice.weekly) {
-      if (savingsType == SavingsType.constant) {
-        savings = getCurrentWeekOrMonth() * initialDeposit;
-        return savings;
-      } else {
-        savings = getCurrentWeekOrMonth() /
-            2 *
-            (2 * initialDeposit + (getCurrentWeekOrMonth() - 1));
-        return savings;
-      }
+    if (completedWeekOrMonth == 0) {
+      return 0.00;
     } else {
-      if (savingsType == SavingsType.constant) {
-        savings = getCurrentWeekOrMonth() * initialDeposit;
-        return savings;
+      if (savingsChoice == SavingsChoice.weekly) {
+        if (savingsType == SavingsType.constant) {
+          savings = (completedWeekOrMonth) * initialDeposit;
+          return savings;
+        } else {
+          savings = ((completedWeekOrMonth) / 2) *
+                  (2 * initialDeposit + completedWeekOrMonth) -
+              0.5;
+          return savings;
+        }
       } else {
-        savings = getCurrentWeekOrMonth() / 2 * (2 * initialDeposit + 11);
-        return savings;
+        if (savingsType == SavingsType.constant) {
+          savings = (completedWeekOrMonth) * initialDeposit;
+          return savings;
+        } else {
+          savings = ((completedWeekOrMonth) / 2) *
+                  (2 * initialDeposit + completedWeekOrMonth) -
+              0.5;
+          return savings;
+        }
       }
     }
   }
 
-  DateTime getendDate() {
-    String startDateString = DateFormat('dd/MM/yyyy').format(startDate);
+  DateTime getEndDate() {
+    // String startDateString = DateFormat('dd/MM/yyyy').format(startDate);
     return DateTime(startDate.year + 1, startDate.month, startDate.day);
   }
 
@@ -96,7 +104,7 @@ class Goal {
 
   double getWeeklyorMonthlyDeposit() {
     if (savingsType == SavingsType.progressive) {
-      return getCurrentWeekOrMonth() * initialDeposit;
+      return completedWeekOrMonth * initialDeposit;
     } else {
       return initialDeposit;
     }
@@ -104,9 +112,9 @@ class Goal {
 
   String getRemainingWeeksOrMonths() {
     if (savingsChoice == SavingsChoice.weekly) {
-      return "${52 - getCurrentWeekOrMonth()} Weeks";
+      return "${52 - completedWeekOrMonth} Weeks";
     } else {
-      return "${12 - getCurrentWeekOrMonth()} Months";
+      return "${12 - completedWeekOrMonth} Months";
     }
   }
 }

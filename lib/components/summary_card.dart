@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
@@ -16,7 +15,23 @@ class SummaryCard extends StatelessWidget {
     var date = DateTime.now();
     String currentDay = DateFormat('EEEE').format(date);
     String startDateString = DateFormat('dd/MM/yyyy').format(goal.startDate);
-    String endDateString = DateFormat('dd/MM/yyyy').format(goal.getendDate());
+    String endDateString = DateFormat('dd/MM/yyyy').format(goal.getEndDate());
+    double getFinalDeposit() {
+      if (goal.savingsChoice == SavingsChoice.weekly) {
+        if (goal.savingsType == SavingsType.constant) {
+          return goal.initialDeposit;
+        } else {
+          return 52 * goal.initialDeposit;
+        }
+      } else {
+        if (goal.savingsType == SavingsType.constant) {
+          return goal.initialDeposit;
+        } else {
+          return 12 * goal.initialDeposit;
+        }
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -76,6 +91,7 @@ class SummaryCard extends StatelessWidget {
                               color: Colors.black,
                             ),
                           ),
+                          const SizedBox(height: 1),
                           Text(
                             startDateString,
                             style: const TextStyle(
@@ -84,6 +100,7 @@ class SummaryCard extends StatelessWidget {
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
                           ),
+                          const SizedBox(height: 1),
                           Text('Rs. ${goal.initialDeposit}')
                         ],
                       ),
@@ -113,6 +130,7 @@ class SummaryCard extends StatelessWidget {
                               color: Colors.black,
                             ),
                           ),
+                          const SizedBox(height: 1),
                           Text(
                             endDateString,
                             style: const TextStyle(
@@ -121,9 +139,8 @@ class SummaryCard extends StatelessWidget {
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
                           ),
-                          Text((goal.savingsChoiceText() == "Weekly")
-                              ? 'Rs. ${52 * goal.initialDeposit}'
-                              : 'Rs. ${12 * goal.initialDeposit}'),
+                          const SizedBox(height: 1),
+                          Text('${getFinalDeposit()}'),
                         ],
                       )
                     ],
@@ -181,22 +198,25 @@ class SummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 60),
-          TextButton(
-            onPressed: onStartButtonTapped,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  const Color.fromRGBO(21, 131, 36, 1)),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
+          SizedBox(
+            height: 50,
+            child: TextButton(
+              onPressed: onStartButtonTapped,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromRGBO(21, 131, 36, 1)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
                 ),
               ),
-            ),
-            child: const Center(
-              child: Text(
-                "Start",
-                style: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(255, 255, 255, 255)),
+              child: const Center(
+                child: Text(
+                  "Start",
+                  style: TextStyle(
+                      fontSize: 18, color: Color.fromARGB(255, 255, 255, 255)),
+                ),
               ),
             ),
           ),

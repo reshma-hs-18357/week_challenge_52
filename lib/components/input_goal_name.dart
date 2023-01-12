@@ -5,19 +5,28 @@ import 'package:week_challenge_52/models/goal.dart';
 
 class InputGoalName extends StatefulWidget {
   Goal goal;
+  bool back;
   void Function(String value) isValid;
-  InputGoalName({super.key, required this.goal, required this.isValid});
+  InputGoalName(
+      {super.key,
+      required this.goal,
+      required this.isValid,
+      required this.back});
 
   @override
   State<InputGoalName> createState() => _InputGoalNameState();
 }
 
 class _InputGoalNameState extends State<InputGoalName> {
-  TextEditingController goalName = TextEditingController();
+  TextEditingController goalNameCntrl = TextEditingController();
 
   @override
   void initState() {
-    goalName.text = "";
+    if (widget.back == true) {
+      goalNameCntrl.text = widget.goal.name;
+    } else {
+      goalNameCntrl.text = "";
+    }
     super.initState();
   }
 
@@ -40,10 +49,12 @@ class _InputGoalNameState extends State<InputGoalName> {
           SizedBox(
             height: 48,
             child: TextField(
-              controller: goalName,
+              controller: goalNameCntrl,
               decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(80)),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(80),
+                    borderSide: const BorderSide(
+                        color: Color.fromRGBO(21, 131, 36, 1))),
                 labelText: 'Ex.Travel to Japan',
               ),
               onChanged: (value) {

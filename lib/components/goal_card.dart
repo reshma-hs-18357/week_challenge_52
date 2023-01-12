@@ -11,7 +11,7 @@ class GoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String endDateString = DateFormat('dd MMM yyyy').format(goal.getendDate());
+    String endDateString = DateFormat('dd MMM yyyy').format(goal.getEndDate());
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -96,7 +96,7 @@ class GoalCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
                 child: Text(
-                  "Rs${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
+                  "Rs.${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
                   style: const TextStyle(
                     fontSize: 12,
                     color: Color.fromRGBO(153, 153, 153, 1),

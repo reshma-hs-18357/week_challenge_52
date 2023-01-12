@@ -4,19 +4,42 @@ import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
-class InputInitialDeposit extends StatelessWidget {
+class InputInitialDeposit extends StatefulWidget {
+  bool back;
   Goal goal;
   void Function(double initialDeposit) onInput;
-  InputInitialDeposit({super.key, required this.goal, required this.onInput});
+  InputInitialDeposit(
+      {super.key,
+      required this.goal,
+      required this.onInput,
+      required this.back});
 
+  @override
+  State<InputInitialDeposit> createState() => _InputInitialDepositState();
+}
+
+class _InputInitialDepositState extends State<InputInitialDeposit> {
   String getSavingsChoice() {
-    if (goal.savingsChoiceText() == "Weekly") {
+    if (widget.goal.savingsChoiceText() == "Weekly") {
       return "weeks";
     } else {
       return "months";
     }
   }
 
+  TextEditingController initialDepositCntrl = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.back == true) {
+      initialDepositCntrl.text = widget.goal.initialDeposit.toString();
+    } else {
+      initialDepositCntrl.text = "";
+    }
+    super.initState();
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,6 +50,7 @@ class InputInitialDeposit extends StatelessWidget {
         SizedBox(
           height: 48,
           child: TextField(
+            controller: initialDepositCntrl,
             decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(80)),
@@ -35,7 +59,7 @@ class InputInitialDeposit extends StatelessWidget {
             onChanged: (value) {
               if (value.isNotEmpty) {
                 double initialDeposit = double.parse(value);
-                onInput(initialDeposit);
+                widget.onInput(initialDeposit);
               }
             },
             keyboardType: TextInputType.number,
@@ -58,7 +82,7 @@ class InputInitialDeposit extends StatelessWidget {
               ),
               TextSpan(
                 text:
-                    '''The chosen values will be ${goal.savingsTypeText().toLowerCase()} over the 
+                    '''The chosen values will be ${widget.goal.savingsTypeText().toLowerCase()} over the 
      ${getSavingsChoice()}''',
               )
             ],
@@ -97,9 +121,9 @@ class InputInitialDeposit extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          (goal.getTotalSavings() == 0.0)
+                          (widget.goal.getTotalSavings() == 0.0)
                               ? '-'
-                              : '${goal.getTotalSavings()}',
+                              : '${widget.goal.getTotalSavings()}',
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )

@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/new_goal_screen.dart';
 
-class AddGoal extends StatefulWidget {
+class AddGoal extends StatelessWidget {
   Goal goal;
   AddGoal({Key? key, required this.goal}) : super(key: key);
 
   @override
-  State<AddGoal> createState() => _AddGoalState();
-}
-
-class _AddGoalState extends State<AddGoal> {
-  @override
   Widget build(BuildContext context) {
+    void navigateToNewGoalScreen(Goal goal) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => NewGoalScreen(
+            goal: goal,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
         title: const Text(
@@ -38,8 +44,8 @@ class _AddGoalState extends State<AddGoal> {
           ),
         ),
       ),
-      body: Container(
-        color: Color.fromRGBO(242, 239, 248, 1),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -57,103 +63,106 @@ class _AddGoalState extends State<AddGoal> {
               const SizedBox(height: 24),
               GestureDetector(
                 onTap: () {
-                  widget.goal.savingsChoice = SavingsChoice.weekly;
-                  navigateToNewGoalScreen(widget.goal);
+                  goal.savingsChoice = SavingsChoice.weekly;
+                  navigateToNewGoalScreen(goal);
                 },
-                child: Container(
-                  color: Color.fromARGB(255, 255, 253, 253),
-                  child: Row(
-                    children: [
-                      Column(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(16, 16, 150, 0),
-                            child: Text(
-                              "Weekly",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(16, 10, 16, 16),
-                            child: SizedBox(
-                              height: 60,
-                              width: 202,
+                child: Card(
+                  elevation: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(16, 16, 150, 0),
                               child: Text(
-                                "Save every week, for 52 weeks, an amount determined by you",
-                                style: TextStyle(fontSize: 14),
+                                "Weekly",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.start,
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                      Image.asset(
-                        'assets/images/money2.png',
-                        height: 136,
-                        width: 109,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ],
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(16, 10, 16, 16),
+                              child: SizedBox(
+                                height: 60,
+                                width: 202,
+                                child: Text(
+                                  "Save every week, for 52 weeks, an amount determined by you",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Image.asset(
+                          'assets/images/money2.png',
+                          height: 136,
+                          width: 100,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  widget.goal.savingsChoice = SavingsChoice.monthly;
-                  navigateToNewGoalScreen(widget.goal);
+                  goal.savingsChoice = SavingsChoice.monthly;
+                  navigateToNewGoalScreen(goal);
                 },
-                child: Container(
+                child: Card(
                   color: Color.fromRGBO(77, 182, 77, 1),
-                  child: Row(
-                    children: [
-                      Column(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(16, 16, 143, 5),
-                            child: Text(
-                              "Monthly",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(16, 5, 16, 16),
-                            child: SizedBox(
-                              height: 60,
-                              width: 202,
+                  elevation: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(80),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(16, 16, 143, 5),
                               child: Text(
-                                "Save every week, for 12 months, an amount determined by you",
+                                "Monthly",
                                 style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                textAlign: TextAlign.start,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Image.asset('assets/images/money3.png',
-                          height: 130, width: 101, fit: BoxFit.fitHeight),
-                    ],
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(16, 5, 16, 16),
+                              child: SizedBox(
+                                height: 60,
+                                width: 200,
+                                child: Text(
+                                  "Save every month, for 12 months, an amount determined by you",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Image.asset('assets/images/money3.png',
+                            height: 130, width: 101, fit: BoxFit.fitHeight),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  void navigateToNewGoalScreen(Goal goal) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => NewGoalScreen(
-          goal: widget.goal,
-          goalList: [],
         ),
       ),
     );

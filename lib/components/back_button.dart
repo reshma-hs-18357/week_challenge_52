@@ -11,31 +11,31 @@ class BackButtonComponent extends StatelessWidget {
     return const TextStyle(fontSize: 14);
   }
 
-  TextButton textButton() {
-    return TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all(const Color.fromRGBO(242, 239, 248, 1)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            side: BorderSide(
-              color: (index != 0)
-                  ? (const Color.fromRGBO(21, 131, 36, 1))
-                  : const Color.fromRGBO(242, 239, 248, 1),
+  Container textButton() {
+    return Container(
+      height: 46,
+      width: 161,
+      child: TextButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(const Color.fromRGBO(242, 239, 248, 1)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(
+                color: (index != 0)
+                    ? (const Color.fromRGBO(21, 131, 36, 1))
+                    : const Color.fromRGBO(242, 239, 248, 1),
+              ),
             ),
           ),
         ),
-      ),
-      child: Center(
-        child: Text(
-          "Back",
-          style: TextStyle(
-            fontSize: 18,
-            color: (index != 0)
-                ? (const Color.fromRGBO(21, 131, 36, 1))
-                : const Color.fromRGBO(242, 239, 248, 1),
+        child: const Center(
+          child: Text(
+            "Back",
+            style: TextStyle(
+                fontSize: 18, color: (Color.fromRGBO(21, 131, 36, 1))),
           ),
         ),
       ),

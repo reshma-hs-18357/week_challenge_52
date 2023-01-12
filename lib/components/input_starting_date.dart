@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
@@ -24,17 +25,21 @@ class _InputStartDateState extends State<InputStartDate> {
   }
 
   void datePicker() async {
-    DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2024));
+    DateTime? pickedDate = await showRoundedDatePicker(
+      context: context,
+      theme: ThemeData(primarySwatch: Colors.green),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+      borderRadius: 16,
+    );
 
     if (pickedDate != null) {
-      String showDate = DateFormat('MMM dd, yyyy').format(pickedDate);
+      print(pickedDate);
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      print(formattedDate);
       setState(() {
-        datecntrl.text = showDate;
-        widget.onPick(pickedDate);
+        datecntrl.text = formattedDate;
       });
     } else {}
   }

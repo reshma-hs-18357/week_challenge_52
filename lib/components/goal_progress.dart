@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:week_challenge_52/models/goal.dart';
@@ -32,11 +31,9 @@ class GoalProgress extends StatelessWidget {
           ),
           Positioned(
             top: 120,
-            left: 156,
-            right: 140,
-            child: SizedBox(
-              width: 64,
-              height: 30,
+            left: 85,
+            right: 85,
+            child: Center(
               child: Text(
                 "${(goal.getPercent() * 100).toInt()} %",
                 style: const TextStyle(
@@ -48,14 +45,16 @@ class GoalProgress extends StatelessWidget {
           ),
           Positioned(
             top: 160,
-            left: 112,
-            right: 110,
+            left: 80,
+            right: 80,
             bottom: 105,
-            child: Text(
-              "RS.${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color.fromRGBO(102, 102, 102, 1),
+            child: Center(
+              child: Text(
+                "${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color.fromRGBO(102, 102, 102, 1),
+                ),
               ),
             ),
           ),

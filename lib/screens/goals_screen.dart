@@ -1,22 +1,14 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:week_challenge_52/service/goal_service.dart';
 
-class GoalsScreen extends StatefulWidget {
+class GoalsScreen extends StatelessWidget {
   List<Goal> goalList;
   GoalsScreen({super.key, required this.goalList});
-  @override
-  State<GoalsScreen> createState() => _GoalsScreenState();
-}
-
-class _GoalsScreenState extends State<GoalsScreen> {
-  GoalService goalService = GoalService();
 
   Widget goalScreenBody() {
-    if (widget.goalList.isEmpty) {
+    if (goalList.isEmpty) {
       return Column(
         children: [
           const SizedBox(height: 60),
@@ -45,9 +37,9 @@ class _GoalsScreenState extends State<GoalsScreen> {
       );
     } else {
       return ListView.builder(
-        itemCount: widget.goalList.length,
+        itemCount: goalList.length,
         itemBuilder: ((context, index) {
-          Goal goal = widget.goalList[index];
+          Goal goal = goalList[index];
           return GoalCard(goal: goal);
         }),
       );
