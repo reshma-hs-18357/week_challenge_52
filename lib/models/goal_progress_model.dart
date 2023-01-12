@@ -1,10 +1,11 @@
 class GoalProgressModel {
   double totalDepositedAmt;
   double savings;
+  double percent;
 
-  GoalProgressModel({required this.totalDepositedAmt, required this.savings});
-
-  double getPercent() {
-    return totalDepositedAmt / savings;
-  }
+  GoalProgressModel({
+    required this.totalDepositedAmt,
+    required this.savings,
+    required this.percent,
+  });
 }

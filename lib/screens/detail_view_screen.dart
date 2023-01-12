@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_progress.dart';
 import 'package:week_challenge_52/components/text_card.dart';
 import 'package:week_challenge_52/components/week_month_card.dart';
+import 'package:week_challenge_52/components/week_month_widget.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:intl/intl.dart';
+import 'package:week_challenge_52/models/goal_progress_model.dart';
+import 'package:week_challenge_52/models/week_month_model.dart';
 
 class GoalDetailView extends StatefulWidget {
   Goal goal;
@@ -16,6 +19,7 @@ class GoalDetailView extends StatefulWidget {
 }
 
 class _GoalDetailViewState extends State<GoalDetailView> {
+  late Goal goal;
   List<dynamic> listItems = [];
   List<WeekorMonthCard> remainingWeeksorMonths = [];
   List<WeekorMonthCard> upcomingWeekorMonth = [];
@@ -24,6 +28,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
 
   @override
   void initState() {
+    goal = widget.goal;
     remainingWeeksorMonths = getTotalWeeksOrMonths();
     upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
     remainingWeeksorMonths.removeAt(0);
@@ -108,18 +113,37 @@ class _GoalDetailViewState extends State<GoalDetailView> {
         itemCount: listItems.length,
         itemBuilder: ((context, index) {
           var element = listItems[index];
-          if (element is GoalProgress) {
-            return GoalProgress(goal: widget.goal);
-          } else if (element is TextCard) {
-            return element;
+          if (element is GoalProgressModel) {
+            return GoalProgress(
+              model: element,
+            );
+          } else if (element is String) {
+            return TextCard(
+              text: element,
+            );
+          } else if (element is WeekMonthModel) {
+            return WeekMonthWidget(
+              model: element,
+              onTapped: () {
+                setState(() {
+                  element.completed = true;
+                  listItems.remove(element);
+                });
+              },
+            );
           } else if (element is WeekorMonthCard) {
             return WeekorMonthCard(
-              choice: element.choice,
-              weekOrMonth: element.weekOrMonth,
-              date: element.date,
-              deposit: element.deposit,
-              onCircleIconButtonTapped: element.onCircleIconButtonTapped,
-            );
+                choice: element.choice,
+                weekOrMonth: element.weekOrMonth,
+                date: element.date,
+                deposit: element.deposit,
+                onCircleIconButtonTapped: (() {
+                  print("ON circle tapped");
+                  setState(() {
+                    GoalProgressModel model = listItems[0];
+                    model.savings += 100;
+                  });
+                }));
           } else {
             return const Text("Null");
           }
@@ -129,12 +153,25 @@ class _GoalDetailViewState extends State<GoalDetailView> {
   }
 
   List<dynamic> prepareListItems() {
-    listItems.add(GoalProgress(goal: widget.goal));
-    listItems.add(TextCard(text: "Upcoming Deposit"));
-    listItems.addAll(getUpcomingWeekOrMonth());
-    listItems.add(TextCard(text: "All Deposit"));
-    listItems.addAll(completedWeeksorMonths);
-    listItems.addAll(remainingWeeksorMonths);
+    // listItems.add(GoalProgress(goal: widget.goal));
+    listItems.add(
+      GoalProgressModel(
+        percent: goal.getPercent(),
+        totalDepositedAmt: goal.getTotalDepositedAmt(),
+        savings: goal.savings,
+      ),
+    );
+    listItems.add("Upcoming Deposit");
+    // listItems.addAll(getUpcomingWeekOrMonth());
+    listItems.add(WeekMonthModel(
+      completed: false,
+      title: "Week 1",
+      date: "12/12/12",
+      amount: 10,
+    ));
+    listItems.add("All Deposit");
+    // listItems.addAll(completedWeeksorMonths);
+    // listItems.addAll(remainingWeeksorMonths);
     return listItems;
   }
 

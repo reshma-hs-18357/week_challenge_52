@@ -35,7 +35,7 @@ class _WeekorMonthCardState extends State<WeekorMonthCard> {
         size: 40,
         color: Color.fromRGBO(16, 159, 40, 1),
       );
-      widget.onCircleIconButtonTapped;
+      widget.onCircleIconButtonTapped();
     });
   }
 
