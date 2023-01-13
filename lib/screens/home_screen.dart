@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
               savingsType: SavingsType.constant,
               initialDeposit: 0.00,
               startDate: DateTime.now(),
-              upcomingWeekOrMonth: 5,
+              upcomingWeekOrMonth: 1,
               savings: 0.00,
             );
             Goal newGoal = await Navigator.push(

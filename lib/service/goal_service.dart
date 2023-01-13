@@ -23,7 +23,7 @@ class GoalService {
         initialDeposit: 100.0,
         savings: 0,
         startDate: DateTime.now(),
-        upcomingWeekOrMonth: 20);
+        upcomingWeekOrMonth: 0);
     postGoals(goal1);
     Goal goal2 = Goal(
         id: 1,
@@ -33,7 +33,7 @@ class GoalService {
         initialDeposit: 100.0,
         savings: 0,
         startDate: DateTime.now(),
-        upcomingWeekOrMonth: 10);
+        upcomingWeekOrMonth: 0);
     postGoals(goal2);
     Goal goal3 = Goal(
         id: 1,
@@ -43,7 +43,7 @@ class GoalService {
         initialDeposit: 100.0,
         savings: 0,
         startDate: DateTime.now(),
-        upcomingWeekOrMonth: 5);
+        upcomingWeekOrMonth: 0);
     postGoals(goal3);
     Goal goal4 = Goal(
         id: 1,

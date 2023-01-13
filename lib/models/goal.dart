@@ -74,9 +74,9 @@ class Goal {
           savings = (upcomingWeekOrMonth) * initialDeposit;
           return savings;
         } else {
-          savings = ((upcomingWeekOrMonth) / 2) *
-                  (2 * initialDeposit + upcomingWeekOrMonth) -
-              0.5;
+          savings = upcomingWeekOrMonth /
+              2 *
+              (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
           return savings;
         }
       } else {
@@ -84,9 +84,9 @@ class Goal {
           savings = (upcomingWeekOrMonth) * initialDeposit;
           return savings;
         } else {
-          savings = ((upcomingWeekOrMonth) / 2) *
-                  (2 * initialDeposit + upcomingWeekOrMonth) -
-              0.5;
+          savings = upcomingWeekOrMonth /
+              2 *
+              (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
           return savings;
         }
       }

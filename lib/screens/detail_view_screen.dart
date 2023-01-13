@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_progress.dart';
 import 'package:week_challenge_52/components/text_card.dart';
@@ -115,6 +114,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
         itemCount: listItems.length,
         itemBuilder: ((context, index) {
           var element = listItems[index];
+          int elemtentIndex = index;
           if (element is GoalProgressModel) {
             return GoalProgress(
               goalProgressModel: element,
@@ -130,7 +130,15 @@ class _GoalDetailViewState extends State<GoalDetailView> {
                 setState(() {
                   element.completed = true;
                   widget.goal.upcomingWeekOrMonth++;
-                  Timer.periodic(const Duration(seconds: 5), (timer) {});
+                  WeekOrMonthModel model = listItems.removeAt(elemtentIndex);
+                  upcomingWeekorMonth.removeAt(0);
+                  completedWeeksorMonths.add(model);
+                  upcomingWeekorMonth
+                      .add(remainingWeeksorMonths[elemtentIndex - 2]);
+                  remainingWeeksorMonths
+                      .remove(remainingWeeksorMonths[elemtentIndex - 2]);
+                  listItems.removeRange(0, listItems.length);
+                  prepareListItems();
                 });
               },
             );
@@ -147,7 +155,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
       GoalProgressModel(
         percent: goal.getPercent(),
         totalDepositedAmt: goal.getTotalDepositedAmt(),
-        savings: goal.savings,
+        savings: goal.getTotalSavings(),
       ),
     );
     listItems.add("Upcoming Deposit");

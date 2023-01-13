@@ -11,7 +11,6 @@ class WeekOrMonthCard extends StatelessWidget {
     required this.onTapped,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +23,7 @@ class WeekOrMonthCard extends StatelessWidget {
               onPressed: onTapped,
               icon: weekOrMonthModel.completed
                   ? const Icon(
-                      Icons.circle_rounded,
+                      Icons.check_circle_outline_rounded,
                       size: 40,
                       color: Color.fromRGBO(16, 159, 40, 1),
                     )
@@ -49,9 +48,10 @@ class WeekOrMonthCard extends StatelessWidget {
                 Text(
                   weekOrMonthModel.date,
                   style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(102, 102, 102, 1)),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromRGBO(102, 102, 102, 1),
+                  ),
                 )
               ],
             ),
