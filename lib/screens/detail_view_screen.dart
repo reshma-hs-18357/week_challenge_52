@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_progress.dart';
 import 'package:week_challenge_52/components/text_card.dart';
@@ -23,24 +22,23 @@ class _GoalDetailViewState extends State<GoalDetailView> {
   List<WeekOrMonthModel> remainingWeeksorMonths = [];
   List<WeekOrMonthModel> upcomingWeekorMonth = [];
   List<WeekOrMonthModel> completedWeeksorMonths = [];
-  int completed = 0;
 
   @override
   void initState() {
     goal = widget.goal;
-    remainingWeeksorMonths = getTotalWeeksOrMonths();
+    remainingWeeksorMonths = _getTotalWeeksOrMonths();
+    remainingWeeksorMonths[0].weekMonthModelType = WeekMonthModelType.upcoming;
     upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
     remainingWeeksorMonths.removeAt(0);
-    prepareListItems();
+    listItems = _prepareListItems();
     super.initState();
   }
 
-  List<WeekOrMonthModel> getTotalWeeksOrMonths() {
+  List<WeekOrMonthModel> _getTotalWeeksOrMonths() {
     if (widget.goal.savingsChoiceText() == "Weekly") {
       for (int i = 1; i < 53; i++) {
         remainingWeeksorMonths.add(WeekOrMonthModel(
-          completed: false,
-          currentWeekOrMonth: i,
+          upcomingWeekOrMonth: i,
           savingsChoice: "Week",
           date: DateFormat('dd/MM/yy').format(DateTime(
             widget.goal.startDate.year,
@@ -51,13 +49,13 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               (widget.goal.savingsType == SavingsType.constant)
                   ? widget.goal.initialDeposit
                   : widget.goal.initialDeposit * i,
+          weekMonthModelType: WeekMonthModelType.remaining,
         ));
       }
     } else {
       for (int i = 1; i < 13; i++) {
         remainingWeeksorMonths.add(WeekOrMonthModel(
-          completed: false,
-          currentWeekOrMonth: i,
+          upcomingWeekOrMonth: i,
           savingsChoice: "Month",
           date: DateFormat('dd/MM/yy').format(DateTime(
             widget.goal.startDate.year,
@@ -68,18 +66,11 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               (widget.goal.savingsType == SavingsType.constant)
                   ? widget.goal.initialDeposit
                   : widget.goal.initialDeposit * i,
+          weekMonthModelType: WeekMonthModelType.remaining,
         ));
       }
     }
     return remainingWeeksorMonths;
-  }
-
-  List<WeekOrMonthModel> getUpcomingWeekOrMonth() {
-    return upcomingWeekorMonth;
-  }
-
-  List<WeekOrMonthModel> completedWeekOrMonth() {
-    return completedWeeksorMonths;
   }
 
   @override
@@ -114,7 +105,6 @@ class _GoalDetailViewState extends State<GoalDetailView> {
         itemCount: listItems.length,
         itemBuilder: ((context, index) {
           var element = listItems[index];
-          int elemtentIndex = index;
           if (element is GoalProgressModel) {
             return GoalProgress(
               goalProgressModel: element,
@@ -128,17 +118,30 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               weekOrMonthModel: element,
               onTapped: () {
                 setState(() {
-                  element.completed = true;
-                  widget.goal.upcomingWeekOrMonth++;
-                  WeekOrMonthModel model = listItems.removeAt(elemtentIndex);
+                  goal.upcomingWeekOrMonth++;
+                  remainingWeeksorMonths[0].weekMonthModelType =
+                      WeekMonthModelType.upcoming;
+                  element.weekMonthModelType = WeekMonthModelType.completed;
+                  // remainingWeeksorMonths[0].weekMonthModelType = WeekMonthModelType.upcoming;
+                  completedWeeksorMonths.add(upcomingWeekorMonth[0]);
                   upcomingWeekorMonth.removeAt(0);
-                  completedWeeksorMonths.add(model);
-                  upcomingWeekorMonth
-                      .add(remainingWeeksorMonths[elemtentIndex - 2]);
-                  remainingWeeksorMonths
-                      .remove(remainingWeeksorMonths[elemtentIndex - 2]);
-                  listItems.removeRange(0, listItems.length);
-                  prepareListItems();
+                  upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
+                  remainingWeeksorMonths.removeAt(0);
+
+                  // (remainingWeeksorMonths[elemtentIndex - 2])
+                  //         .weekMonthModelType ==
+                  //     WeekMonthModelType.upcoming;
+                  // // print(widget.goal.upcomingWeekOrMonth);
+                  // WeekOrMonthModel model = listItems.removeAt(elemtentIndex);
+                  // upcomingWeekorMonth.removeAt(0);
+                  // completedWeeksorMonths.add(model);
+
+                  // upcomingWeekorMonth
+                  //     .add(remainingWeeksorMonths[elemtentIndex - 2]);
+                  // remainingWeeksorMonths
+                  //     .remove(remainingWeeksorMonths[elemtentIndex - 2]);
+                  // listItems.removeRange(0, listItems.length);
+                  listItems = _prepareListItems();
                 });
               },
             );
@@ -150,7 +153,8 @@ class _GoalDetailViewState extends State<GoalDetailView> {
     );
   }
 
-  List<dynamic> prepareListItems() {
+  List<dynamic> _prepareListItems() {
+    List<dynamic> listItems = [];
     listItems.add(
       GoalProgressModel(
         percent: goal.getPercent(),
@@ -159,7 +163,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
       ),
     );
     listItems.add("Upcoming Deposit");
-    listItems.addAll(getUpcomingWeekOrMonth());
+    listItems.addAll(upcomingWeekorMonth);
     listItems.add("All Deposit");
     listItems.addAll(completedWeeksorMonths);
     listItems.addAll(remainingWeeksorMonths);
