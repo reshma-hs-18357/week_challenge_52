@@ -1,12 +1,11 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/models/goal_progress_model.dart';
 
 class GoalProgress extends StatelessWidget {
-  GoalProgressModel model;
-  GoalProgress({super.key, required this.model});
+  GoalProgressModel goalProgressModel;
+  GoalProgress({super.key, required this.goalProgressModel});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class GoalProgress extends StatelessWidget {
               radius: 120.0,
               animateFromLastPercent: true,
               lineWidth: 15.0,
-              percent: model.percent,
+              percent: goalProgressModel.percent,
               arcBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),
               arcType: ArcType.FULL,
               circularStrokeCap: CircularStrokeCap.butt,
@@ -36,7 +35,7 @@ class GoalProgress extends StatelessWidget {
             right: 85,
             child: Center(
               child: Text(
-                "${(model.percent * 100).toInt()} %",
+                "${goalProgressModel.getPercentValue()} %",
                 style: const TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -51,7 +50,7 @@ class GoalProgress extends StatelessWidget {
             bottom: 105,
             child: Center(
               child: Text(
-                "${model.totalDepositedAmt} of Rs.${model.savings}",
+                "${goalProgressModel.totalDepositedAmt} of Rs.${goalProgressModel.savings}",
                 style: const TextStyle(
                   fontSize: 14,
                   color: Color.fromRGBO(102, 102, 102, 1),
@@ -63,7 +62,7 @@ class GoalProgress extends StatelessWidget {
             top: 250,
             left: 85,
             child: Text(
-              "${(model.savings * 100).toInt()} %",
+              "${goalProgressModel.getPercentValue()} %",
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

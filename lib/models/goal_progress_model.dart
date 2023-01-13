@@ -8,4 +8,8 @@ class GoalProgressModel {
     required this.savings,
     required this.percent,
   });
+
+  int getPercentValue() {
+    return (percent * 100).toInt();
+  }
 }

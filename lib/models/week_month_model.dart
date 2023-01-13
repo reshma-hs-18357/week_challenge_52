@@ -1,16 +1,15 @@
-class WeekMonthModel {
+class WeekOrMonthModel {
   bool completed;
-
-  String title;
-
+  int currentWeekOrMonth;
+  String savingsChoice;
   String date;
+  double weeklyOrMonthlydeposit;
 
-  double amount;
-
-  WeekMonthModel({
+  WeekOrMonthModel({
     required this.completed,
-    required this.title,
+    required this.currentWeekOrMonth,
+    required this.savingsChoice,
     required this.date,
-    required this.amount,
+    required this.weeklyOrMonthlydeposit,
   });
 }

@@ -10,7 +10,7 @@ class Goal {
   double initialDeposit;
   double savings;
   DateTime startDate;
-  int completedWeekOrMonth;
+  int upcomingWeekOrMonth;
 
   Goal({
     required this.id,
@@ -20,7 +20,7 @@ class Goal {
     required this.savings,
     required this.startDate,
     required this.savingsType,
-    required this.completedWeekOrMonth,
+    required this.upcomingWeekOrMonth,
   });
 
   @override
@@ -66,26 +66,26 @@ class Goal {
   }
 
   double getTotalDepositedAmt() {
-    if (completedWeekOrMonth == 0) {
+    if (upcomingWeekOrMonth == 0) {
       return 0.00;
     } else {
       if (savingsChoice == SavingsChoice.weekly) {
         if (savingsType == SavingsType.constant) {
-          savings = (completedWeekOrMonth) * initialDeposit;
+          savings = (upcomingWeekOrMonth) * initialDeposit;
           return savings;
         } else {
-          savings = ((completedWeekOrMonth) / 2) *
-                  (2 * initialDeposit + completedWeekOrMonth) -
+          savings = ((upcomingWeekOrMonth) / 2) *
+                  (2 * initialDeposit + upcomingWeekOrMonth) -
               0.5;
           return savings;
         }
       } else {
         if (savingsType == SavingsType.constant) {
-          savings = (completedWeekOrMonth) * initialDeposit;
+          savings = (upcomingWeekOrMonth) * initialDeposit;
           return savings;
         } else {
-          savings = ((completedWeekOrMonth) / 2) *
-                  (2 * initialDeposit + completedWeekOrMonth) -
+          savings = ((upcomingWeekOrMonth) / 2) *
+                  (2 * initialDeposit + upcomingWeekOrMonth) -
               0.5;
           return savings;
         }
@@ -104,7 +104,7 @@ class Goal {
 
   double getWeeklyorMonthlyDeposit() {
     if (savingsType == SavingsType.progressive) {
-      return completedWeekOrMonth * initialDeposit;
+      return upcomingWeekOrMonth * initialDeposit;
     } else {
       return initialDeposit;
     }
@@ -112,9 +112,9 @@ class Goal {
 
   String getRemainingWeeksOrMonths() {
     if (savingsChoice == SavingsChoice.weekly) {
-      return "${52 - completedWeekOrMonth} Weeks";
+      return "${52 - upcomingWeekOrMonth} Weeks";
     } else {
-      return "${12 - completedWeekOrMonth} Months";
+      return "${12 - upcomingWeekOrMonth} Months";
     }
   }
 }

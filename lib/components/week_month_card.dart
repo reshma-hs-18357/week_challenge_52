@@ -1,43 +1,16 @@
 // ignore_for_file: must_be_immutable, unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
+import 'package:week_challenge_52/models/week_month_model.dart';
 
-class WeekorMonthCard extends StatefulWidget {
-  String date;
-  double deposit;
-  int weekOrMonth;
-  String choice;
-  void Function() onCircleIconButtonTapped;
-  WeekorMonthCard({
+class WeekOrMonthCard extends StatelessWidget {
+  WeekOrMonthModel weekOrMonthModel;
+  void Function() onTapped;
+  WeekOrMonthCard({
+    required this.weekOrMonthModel,
+    required this.onTapped,
     super.key,
-    required this.weekOrMonth,
-    required this.date,
-    required this.deposit,
-    required this.choice,
-    required this.onCircleIconButtonTapped,
   });
-
-  @override
-  State<WeekorMonthCard> createState() => _WeekorMonthCardState();
-}
-
-class _WeekorMonthCardState extends State<WeekorMonthCard> {
-  Widget circleIcon = const Icon(
-    Icons.circle_outlined,
-    size: 40,
-    color: Color.fromRGBO(16, 159, 40, 1),
-  );
-
-  onCircleIconTapped() {
-    setState(() {
-      circleIcon = const Icon(
-        Icons.circle_rounded,
-        size: 40,
-        color: Color.fromRGBO(16, 159, 40, 1),
-      );
-      widget.onCircleIconButtonTapped();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,24 +21,33 @@ class _WeekorMonthCardState extends State<WeekorMonthCard> {
         child: Row(
           children: [
             IconButton(
-              onPressed: onCircleIconTapped,
-              icon: circleIcon,
+              onPressed: onTapped,
+              icon: weekOrMonthModel.completed
+                  ? const Icon(
+                      Icons.circle_rounded,
+                      size: 40,
+                      color: Color.fromRGBO(16, 159, 40, 1),
+                    )
+                  : const Icon(
+                      Icons.circle_outlined,
+                      size: 40,
+                      color: Color.fromRGBO(16, 159, 40, 1),
+                    ),
             ),
             const SizedBox(width: 16),
             Column(
               children: [
                 Text(
-                  (widget.choice == "Week")
-                      ? "Week ${widget.weekOrMonth}"
-                      : "Month ${widget.weekOrMonth}",
+                  "${weekOrMonthModel.savingsChoice} ${weekOrMonthModel.currentWeekOrMonth}",
                   style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  widget.date,
+                  weekOrMonthModel.date,
                   style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -75,7 +57,7 @@ class _WeekorMonthCardState extends State<WeekorMonthCard> {
             ),
             const Spacer(),
             Text(
-              '${widget.deposit}',
+              '${weekOrMonthModel.weeklyOrMonthlydeposit}',
               style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
