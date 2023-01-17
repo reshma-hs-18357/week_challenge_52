@@ -43,6 +43,7 @@ dependencies:
   cupertino_icons: ^1.0.2  
   percent_indicator: ^4.2.2
   intl: ^0.17.0
+  test: ^1.21.4
   
 
 
@@ -79,6 +80,7 @@ flutter:
     - assets/images/goal.png
     - assets/images/cap.png
     - assets/images/trophy.png
+    - assets/images/completed.png
    
 
   # An image asset can refer to one or more resolution-specific "variants", see

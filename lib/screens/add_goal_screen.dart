@@ -7,6 +7,8 @@ class AddGoal extends StatelessWidget {
   Goal goal;
   AddGoal({Key? key, required this.goal}) : super(key: key);
 
+  Color color = const Color.fromRGBO(242, 239, 248, 1);
+
   @override
   Widget build(BuildContext context) {
     void navigateToNewGoalScreen(Goal goal) {
@@ -20,9 +22,9 @@ class AddGoal extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+      backgroundColor: color,
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+        backgroundColor: color,
         title: const Text(
           "New Goal",
           style: TextStyle(

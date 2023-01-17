@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/about_screen.dart';
+import 'package:week_challenge_52/screens/detail_view_screen.dart';
 import 'package:week_challenge_52/screens/goals_screen.dart';
 import 'package:week_challenge_52/screens/add_goal_screen.dart';
 import 'package:week_challenge_52/service/goal_service.dart';
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> screens = [];
   late GoalService goalService;
 
-  List<Goal> fetchGoalList() {
+  List<Goal> _fetchGoalList() {
     goalList = goalService.fetchGoalList();
     return goalList;
   }
@@ -28,15 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     goalService = GoalService.instance;
     setState(() {
-      goalList = fetchGoalList();
+      goalList = _fetchGoalList();
     });
     super.initState();
     GoalService.instance.addingGoals();
   }
 
-  Widget returnSelectedIndexWidget(int selectedIndex) {
+  Widget _returnSelectedIndexWidget(int selectedIndex) {
     if (selectedIndex == 0 || selectedIndex == 1) {
-      return GoalsScreen(goalList: goalList);
+      return GoalsScreen(goalList: goalList, onCardTapped: onCardTapped);
     } else {
       return AboutScreen();
     }
@@ -45,25 +46,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
+      appBar: _appBar(),
       backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-      body: returnSelectedIndexWidget(_selectedIndex),
-      bottomNavigationBar: buildBottomBar(),
-      floatingActionButton: buildNavigateButton(),
+      body: _returnSelectedIndexWidget(_selectedIndex),
+      bottomNavigationBar: _buildBottomBar(),
+      floatingActionButton: _buildNavigateButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
-  PreferredSize appBar() {
+  PreferredSize _appBar() {
     if (_selectedIndex == 0 || _selectedIndex == 1) {
       return PreferredSize(
           child: AppBar(
-            backgroundColor: backgroundColor(),
+            backgroundColor: _backgroundColor(),
             leading: Padding(
               padding: const EdgeInsets.all(10),
               child: CircleAvatar(
                 radius: 22,
-                backgroundColor: backgroundColor(),
+                backgroundColor: _backgroundColor(),
                 child: Image.asset(
                   'assets/images/piggy.png',
                   height: 44,
@@ -108,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Color backgroundColor() {
+  Color _backgroundColor() {
     if (GoalService.instance.fetchGoalList().isEmpty) {
       return const Color.fromRGBO(242, 239, 248, 1);
     } else {
@@ -116,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget buildBottomBar() => SizedBox(
+  Widget _buildBottomBar() => SizedBox(
         height: 90,
         child: BottomNavigationBar(
           iconSize: 30,
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
 
-  Widget buildNavigateButton() => SizedBox(
+  Widget _buildNavigateButton() => SizedBox(
         width: 70,
         height: 70,
         child: FloatingActionButton(
@@ -154,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
               savingsType: SavingsType.constant,
               initialDeposit: 0.00,
               startDate: DateTime.now(),
-              upcomingWeekOrMonth: 1,
+              upcomingWeekOrMonth: 0,
               savings: 0.00,
             );
             Goal newGoal = await Navigator.push(
@@ -163,19 +164,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context) => AddGoal(goal: goal),
               ),
             );
-            // print(newGoal.toString());
             setState(() {
               goalService.postGoals(newGoal);
               goalList = goalService.fetchGoalList();
             });
           },
-          child: Icon(Icons.add),
+          child: Icon(Icons.add, size: 40),
         ),
       );
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void onCardTapped(Goal goal) async {
+    Goal newGoal = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoalDetailView(goal: goal),
+      ),
+    );
+    setState(() {
+      goal = newGoal;
     });
   }
 }

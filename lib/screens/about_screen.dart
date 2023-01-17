@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
+  final SizedBox sizedBox = const SizedBox(height: 2);
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,10 +22,10 @@ class AboutScreen extends StatelessWidget {
                 children: [
                   Image.asset('assets/images/savings.png',
                       height: 300, width: 300),
-                  const SizedBox(height: 2),
+                  sizedBox,
                   const Text("52-Week Challenge",
                       style: TextStyle(fontSize: 18)),
-                  const SizedBox(height: 2),
+                  sizedBox,
                   const Padding(
                     padding: EdgeInsets.all(18.0),
                     child: Text(

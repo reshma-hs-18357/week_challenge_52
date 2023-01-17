@@ -118,30 +118,26 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               weekOrMonthModel: element,
               onTapped: () {
                 setState(() {
-                  goal.upcomingWeekOrMonth++;
-                  remainingWeeksorMonths[0].weekMonthModelType =
-                      WeekMonthModelType.upcoming;
-                  element.weekMonthModelType = WeekMonthModelType.completed;
-                  // remainingWeeksorMonths[0].weekMonthModelType = WeekMonthModelType.upcoming;
-                  completedWeeksorMonths.add(upcomingWeekorMonth[0]);
-                  upcomingWeekorMonth.removeAt(0);
-                  upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
-                  remainingWeeksorMonths.removeAt(0);
-
-                  // (remainingWeeksorMonths[elemtentIndex - 2])
-                  //         .weekMonthModelType ==
-                  //     WeekMonthModelType.upcoming;
-                  // // print(widget.goal.upcomingWeekOrMonth);
-                  // WeekOrMonthModel model = listItems.removeAt(elemtentIndex);
-                  // upcomingWeekorMonth.removeAt(0);
-                  // completedWeeksorMonths.add(model);
-
-                  // upcomingWeekorMonth
-                  //     .add(remainingWeeksorMonths[elemtentIndex - 2]);
-                  // remainingWeeksorMonths
-                  //     .remove(remainingWeeksorMonths[elemtentIndex - 2]);
-                  // listItems.removeRange(0, listItems.length);
-                  listItems = _prepareListItems();
+                  if (goal.getPercent() < 1) {
+                    // print(goal.upcomingWeekOrMonth);
+                    // print(remainingWeeksorMonths.length);
+                    // print(completedWeeksorMonths.length);
+                    goal.upcomingWeekOrMonth++;
+                    remainingWeeksorMonths[0].weekMonthModelType =
+                        WeekMonthModelType.upcoming;
+                    element.weekMonthModelType = WeekMonthModelType.completed;
+                    completedWeeksorMonths.add(upcomingWeekorMonth[0]);
+                    upcomingWeekorMonth.removeAt(0);
+                    upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
+                    remainingWeeksorMonths.removeAt(0);
+                    listItems = _prepareListItems();
+                  } else {
+                    element.weekMonthModelType = WeekMonthModelType.completed;
+                    completedWeeksorMonths.add(element);
+                    upcomingWeekorMonth.removeAt(0);
+                    listItems = _prepareListItems();
+                    listItems.removeAt(1);
+                  }
                 });
               },
             );

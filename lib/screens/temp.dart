@@ -1,21 +1,19 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_card.dart';
+import 'package:week_challenge_52/components/temp.dart';
+import 'package:week_challenge_52/models/goal_card_model.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/detail_view_screen.dart';
 
-class GoalsScreen extends StatelessWidget {
+class GoalsScreenTemp extends StatelessWidget {
   List<Goal> goalList;
-  void Function(Goal goal) onCardTapped;
-  GoalsScreen({super.key, required this.goalList, required this.onCardTapped});
+  GoalsScreenTemp({
+    super.key,
+    required this.goalList,
+  });
 
-  late Goal goal;
-
-  @override
-  Widget build(BuildContext context) {
-    return _goalScreenBody();
-  }
-
-  Widget _goalScreenBody() {
+  Widget goalScreenBody() {
     if (goalList.isEmpty) {
       return Column(
         children: [
@@ -47,13 +45,34 @@ class GoalsScreen extends StatelessWidget {
       return ListView.builder(
         itemCount: goalList.length,
         itemBuilder: ((context, index) {
-          goal = goalList[index];
-          return GoalCard(
-            goal: goal,
-            onCardTapped: onCardTapped,
+          Goal goal = goalList[index];
+          GoalCardModel model = GoalCardModel(
+            name: goal.name,
+            savingsChoiceText: goal.savingsChoiceText(),
+            savings: goal.getTotalSavings(),
+            percent: goal.getPercent(),
+            remainingWeekOrMonth: goal.getRemainingWeeksOrMonths(),
+            endDate: goal.getEndDate(),
+            totalAmtDeposited: goal.getTotalDepositedAmt(),
           );
+          return GoalCardTemp(
+              goalCardModel: model,
+              onTapped: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoalDetailView(goal: goal),
+                  ),
+                );
+              });
+          // return GoalCard(goal: goal);
         }),
       );
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return goalScreenBody();
   }
 }

@@ -25,7 +25,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
   late Widget comp;
   bool back = false;
 
-  Widget stepIndicator() {
+  Widget _stepIndicator() {
     if (index != 4) {
       return StepIndicator(step: index + 1);
     } else {
@@ -146,7 +146,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              stepIndicator(),
+              _stepIndicator(),
               const SizedBox(height: 8),
               comp = returnComponents(index, back),
               const SizedBox(height: 10),

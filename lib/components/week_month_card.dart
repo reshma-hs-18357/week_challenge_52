@@ -72,8 +72,8 @@ class WeekOrMonthCard extends StatelessWidget {
   }
 
   IconButton _getIconButton() {
-    // switch(weekOrMonthModel.weekMonthModelType){
-    //   case: W
+    // switch(WeekOrMonthModel. ){
+    //   case:
     // }
     if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.upcoming) {
       return IconButton(
@@ -86,12 +86,14 @@ class WeekOrMonthCard extends StatelessWidget {
     } else if (weekOrMonthModel.weekMonthModelType ==
         WeekMonthModelType.completed) {
       return IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.circle_rounded,
-            size: 40,
-            color: Color.fromRGBO(16, 159, 40, 1),
-          ));
+        onPressed: () {},
+        icon: Image.asset(
+          "assets/images/completed.png",
+          scale: 4,
+          // width: 40,
+          // height: 40,
+        ),
+      );
     } else {
       return IconButton(
         onPressed: () {},

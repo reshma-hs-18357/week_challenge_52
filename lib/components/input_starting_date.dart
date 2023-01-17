@@ -35,9 +35,9 @@ class _InputStartDateState extends State<InputStartDate> {
     );
 
     if (pickedDate != null) {
-      print(pickedDate);
+      // print(pickedDate);
       String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-      print(formattedDate);
+      // print(formattedDate);
       setState(() {
         datecntrl.text = formattedDate;
       });

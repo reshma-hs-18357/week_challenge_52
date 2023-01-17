@@ -1,7 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:week_challenge_52/models/goal_progress_model.dart';
-
 class Goal {
   int id;
   String name;
@@ -66,29 +64,25 @@ class Goal {
   }
 
   double getTotalDepositedAmt() {
-    if (upcomingWeekOrMonth == 0) {
-      return 0.00;
-    } else {
-      if (savingsChoice == SavingsChoice.weekly) {
-        if (savingsType == SavingsType.constant) {
-          savings = (upcomingWeekOrMonth) * initialDeposit;
-          return savings;
-        } else {
-          savings = upcomingWeekOrMonth /
-              2 *
-              (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
-          return savings;
-        }
+    if (savingsChoice == SavingsChoice.weekly) {
+      if (savingsType == SavingsType.constant) {
+        savings = (upcomingWeekOrMonth) * initialDeposit;
+        return savings;
       } else {
-        if (savingsType == SavingsType.constant) {
-          savings = (upcomingWeekOrMonth) * initialDeposit;
-          return savings;
-        } else {
-          savings = upcomingWeekOrMonth /
-              2 *
-              (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
-          return savings;
-        }
+        savings = upcomingWeekOrMonth /
+            2 *
+            (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
+        return savings;
+      }
+    } else {
+      if (savingsType == SavingsType.constant) {
+        savings = (upcomingWeekOrMonth) * initialDeposit;
+        return savings;
+      } else {
+        savings = upcomingWeekOrMonth /
+            2 *
+            (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
+        return savings;
       }
     }
   }
