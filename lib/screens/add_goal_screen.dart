@@ -80,7 +80,8 @@ class AddGoal extends StatelessWidget {
                         Column(
                           children: const [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(16, 16, 150, 0),
+                              padding: EdgeInsets.only(
+                                  left: 16, top: 16, right: 150),
                               child: Text(
                                 "Weekly",
                                 style: TextStyle(
@@ -89,7 +90,7 @@ class AddGoal extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(16, 10, 16, 16),
+                              padding: EdgeInsets.fromLTRB(16, 10, 4, 16),
                               child: SizedBox(
                                 height: 60,
                                 width: 202,
@@ -104,7 +105,7 @@ class AddGoal extends StatelessWidget {
                         Image.asset(
                           'assets/images/money2.png',
                           height: 136,
-                          width: 100,
+                          width: 95,
                           fit: BoxFit.fitHeight,
                         ),
                       ],
@@ -132,7 +133,7 @@ class AddGoal extends StatelessWidget {
                         Column(
                           children: const [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(16, 16, 143, 5),
+                              padding: EdgeInsets.fromLTRB(16, 16, 140, 5),
                               child: Text(
                                 "Monthly",
                                 style: TextStyle(
@@ -143,7 +144,7 @@ class AddGoal extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(16, 5, 16, 16),
+                              padding: EdgeInsets.fromLTRB(16, 5, 10, 16),
                               child: SizedBox(
                                 height: 60,
                                 width: 200,
@@ -157,7 +158,7 @@ class AddGoal extends StatelessWidget {
                           ],
                         ),
                         Image.asset('assets/images/money3.png',
-                            height: 130, width: 101, fit: BoxFit.fitHeight),
+                            height: 130, width: 88, fit: BoxFit.fitHeight),
                       ],
                     ),
                   ),

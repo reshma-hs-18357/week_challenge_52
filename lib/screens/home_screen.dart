@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_selectedIndex == 0 || _selectedIndex == 1) {
       return PreferredSize(
           child: AppBar(
+            centerTitle: true,
             backgroundColor: _backgroundColor(),
             leading: Padding(
               padding: const EdgeInsets.all(10),
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (GoalService.instance.fetchGoalList().isEmpty) {
       return const Color.fromRGBO(242, 239, 248, 1);
     } else {
-      return Color.fromARGB(255, 248, 248, 248);
+      return Colors.white;
     }
   }
 
@@ -188,6 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     setState(() {
       goal = newGoal;
+      print(goal.toString());
     });
   }
 }

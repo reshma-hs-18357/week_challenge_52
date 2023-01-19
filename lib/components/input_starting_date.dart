@@ -24,20 +24,15 @@ class _InputStartDateState extends State<InputStartDate> {
     datecntrl.text = showDate;
   }
 
-  void datePicker() async {
-    DateTime? pickedDate = await showRoundedDatePicker(
-      context: context,
-      theme: ThemeData(primarySwatch: Colors.green),
-      initialDate: DateTime.now(),
-      firstDate: DateTime(DateTime.now().year - 1),
-      lastDate: DateTime(DateTime.now().year + 1),
-      borderRadius: 16,
-    );
+  void _datePicker() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2024));
 
     if (pickedDate != null) {
-      // print(pickedDate);
       String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-      // print(formattedDate);
       setState(() {
         datecntrl.text = formattedDate;
       });
@@ -64,7 +59,7 @@ class _InputStartDateState extends State<InputStartDate> {
                     OutlineInputBorder(borderRadius: BorderRadius.circular(80)),
                 label: const Text('Select a date'),
               ),
-              onTap: datePicker,
+              onTap: _datePicker,
             ),
           ),
         ],

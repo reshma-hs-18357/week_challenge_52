@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/home_screen.dart';
 
 void main() {
@@ -12,9 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: const Color.fromRGBO(242, 239, 248, 1)),
+      theme: ThemeData(
+          primaryColor: const Color.fromRGBO(242, 239, 248, 1),
+          primarySwatch: Colors.green),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

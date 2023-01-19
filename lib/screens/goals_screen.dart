@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:week_challenge_52/screens/detail_view_screen.dart';
 
 class GoalsScreen extends StatelessWidget {
-  List<Goal> goalList;
-  void Function(Goal goal) onCardTapped;
+  final List<Goal> goalList;
+  final void Function(Goal goal) onCardTapped;
   GoalsScreen({super.key, required this.goalList, required this.onCardTapped});
 
   late Goal goal;

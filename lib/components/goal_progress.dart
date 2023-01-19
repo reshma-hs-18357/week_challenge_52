@@ -20,7 +20,7 @@ class GoalProgress extends StatelessWidget {
             right: 50,
             child: CircularPercentIndicator(
               radius: 120.0,
-              animateFromLastPercent: true,
+              // animateFromLastPercent: true,
               lineWidth: 15.0,
               animationDuration: 5000,
               percent: goalProgressModel.percent,

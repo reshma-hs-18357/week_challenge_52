@@ -36,36 +36,36 @@ class _GoalDetailViewState extends State<GoalDetailView> {
 
   List<WeekOrMonthModel> _getTotalWeeksOrMonths() {
     if (widget.goal.savingsChoiceText() == "Weekly") {
-      for (int i = 1; i < 53; i++) {
+      for (int i = 0; i < 52; i++) {
         remainingWeeksorMonths.add(WeekOrMonthModel(
-          upcomingWeekOrMonth: i,
+          upcomingWeekOrMonth: i + 1,
           savingsChoice: "Week",
           date: DateFormat('dd/MM/yy').format(DateTime(
             widget.goal.startDate.year,
             widget.goal.startDate.month,
-            widget.goal.startDate.day + 7 * (i - 1),
+            widget.goal.startDate.day + 7 * (i),
           )),
           weeklyOrMonthlydeposit:
               (widget.goal.savingsType == SavingsType.constant)
                   ? widget.goal.initialDeposit
-                  : widget.goal.initialDeposit * i,
+                  : widget.goal.initialDeposit * (i + 1),
           weekMonthModelType: WeekMonthModelType.remaining,
         ));
       }
     } else {
-      for (int i = 1; i < 13; i++) {
+      for (int i = 0; i < 12; i++) {
         remainingWeeksorMonths.add(WeekOrMonthModel(
-          upcomingWeekOrMonth: i,
+          upcomingWeekOrMonth: i + 1,
           savingsChoice: "Month",
           date: DateFormat('dd/MM/yy').format(DateTime(
             widget.goal.startDate.year,
             widget.goal.startDate.month,
-            widget.goal.startDate.day + 7 * (i - 1),
+            widget.goal.startDate.day + 7 * (i),
           )),
           weeklyOrMonthlydeposit:
               (widget.goal.savingsType == SavingsType.constant)
                   ? widget.goal.initialDeposit
-                  : widget.goal.initialDeposit * i,
+                  : widget.goal.initialDeposit * (i + 1),
           weekMonthModelType: WeekMonthModelType.remaining,
         ));
       }
@@ -118,10 +118,8 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               weekOrMonthModel: element,
               onTapped: () {
                 setState(() {
+                  print(goal.getPercent());
                   if (goal.getPercent() < 1) {
-                    // print(goal.upcomingWeekOrMonth);
-                    // print(remainingWeeksorMonths.length);
-                    // print(completedWeeksorMonths.length);
                     goal.upcomingWeekOrMonth++;
                     remainingWeeksorMonths[0].weekMonthModelType =
                         WeekMonthModelType.upcoming;
@@ -131,7 +129,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
                     upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
                     remainingWeeksorMonths.removeAt(0);
                     listItems = _prepareListItems();
-                  } else {
+                  } else if (goal.getPercent() == 1) {
                     element.weekMonthModelType = WeekMonthModelType.completed;
                     completedWeeksorMonths.add(element);
                     upcomingWeekorMonth.removeAt(0);

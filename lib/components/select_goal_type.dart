@@ -73,7 +73,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
                       : const Color.fromRGBO(77, 182, 77, 1),
                   child: Container(
                     height: 141,
-                    width: 161,
+                    width: 150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -125,7 +125,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
                   elevation: 10,
                   child: Container(
                     height: 141,
-                    width: 161,
+                    width: 150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),

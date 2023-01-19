@@ -1,12 +1,12 @@
-// ignore_for_file: must_be_immutable, unrelated_type_equality_checks, curly_braces_in_flow_control_structures, prefer_const_constructors
+//  unrelated_type_equality_checks, curly_braces_in_flow_control_structures, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/week_month_model.dart';
 
 class WeekOrMonthCard extends StatelessWidget {
-  WeekOrMonthModel weekOrMonthModel;
-  void Function() onTapped;
-  WeekOrMonthCard({
+  final WeekOrMonthModel weekOrMonthModel;
+  final void Function() onTapped;
+  const WeekOrMonthCard({
     required this.weekOrMonthModel,
     required this.onTapped,
     super.key,
@@ -65,50 +65,84 @@ class WeekOrMonthCard extends StatelessWidget {
 
   Color _getCardColor() {
     if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.upcoming) {
-      return Color.fromRGBO(16, 159, 40, 1);
+      return const Color.fromRGBO(16, 159, 40, 1);
     } else {
       return Colors.white;
     }
   }
 
   IconButton _getIconButton() {
-    // switch(WeekOrMonthModel. ){
-    //   case:
-    // }
-    if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.upcoming) {
-      return IconButton(
-          onPressed: onTapped,
-          icon: const Icon(
-            Icons.circle_outlined,
-            size: 40,
-            color: Color.fromRGBO(16, 159, 40, 1),
-          ));
-    } else if (weekOrMonthModel.weekMonthModelType ==
-        WeekMonthModelType.completed) {
-      return IconButton(
-        onPressed: () {},
-        icon: Image.asset(
-          "assets/images/completed.png",
-          scale: 4,
-          // width: 40,
-          // height: 40,
-        ),
-      );
-    } else {
-      return IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.lock_outlined,
-          size: 40,
-          color: Color.fromRGBO(190, 186, 191, 1),
-        ),
-      );
+    IconButton iconButton;
+    switch (weekOrMonthModel.weekMonthModelType) {
+      case WeekMonthModelType.completed:
+        {
+          iconButton = IconButton(
+            onPressed: () {},
+            icon: Image.asset(
+              "assets/images/completed.png",
+              scale: 4,
+            ),
+          );
+          break;
+        }
+      case WeekMonthModelType.upcoming:
+        {
+          iconButton = IconButton(
+              onPressed: onTapped,
+              icon: const Icon(
+                Icons.circle_outlined,
+                size: 40,
+                color: Color.fromRGBO(16, 159, 40, 1),
+              ));
+          break;
+        }
+      case WeekMonthModelType.remaining:
+        {
+          iconButton = IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.lock_outlined,
+              size: 40,
+              color: Color.fromRGBO(190, 186, 191, 1),
+            ),
+          );
+          break;
+        }
     }
+    return iconButton;
   }
+  //   if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.upcoming) {
+  //     return IconButton(
+  //         onPressed: onTapped,
+  //         icon: const Icon(
+  //           Icons.circle_outlined,
+  //           size: 40,
+  //           color: Color.fromRGBO(16, 159, 40, 1),
+  //         ));
+  //   } else if (weekOrMonthModel.weekMonthModelType ==
+  //       WeekMonthModelType.completed) {
+  //     return IconButton(
+  //       onPressed: () {},
+  //       icon: Image.asset(
+  //         "assets/images/completed.png",
+  //         scale: 4,
+  //       ),
+  //     );
+  //   } else {
+  //     return IconButton(
+  //       onPressed: () {},
+  //       icon: const Icon(
+  //         Icons.lock_outlined,
+  //         size: 40,
+  //         color: Color.fromRGBO(190, 186, 191, 1),
+  //       ),
+  //     );
+  //   }
+  // }
 
   Color _getTextColor() {
     if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.remaining) {
-      return Color.fromRGBO(190, 186, 191, 1);
+      return const Color.fromRGBO(190, 186, 191, 1);
     } else {
       return Colors.black;
     }

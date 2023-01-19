@@ -1,13 +1,12 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class GoalCard extends StatelessWidget {
-  Goal goal;
-  void Function(Goal goal) onCardTapped;
-  GoalCard({super.key, required this.goal, required this.onCardTapped});
+  final Goal goal;
+  final void Function(Goal goal) onCardTapped;
+  const GoalCard({super.key, required this.goal, required this.onCardTapped});
 
   @override
   Widget build(BuildContext context) {
