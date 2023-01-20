@@ -1,13 +1,11 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class SelectGoalType extends StatefulWidget {
-  bool back;
-  Goal goal;
-  void Function(SavingsType savingsType) onSelect;
-  SelectGoalType({
+  final bool back;
+  final Goal goal;
+  final void Function(SavingsType savingsType) onSelect;
+  const SelectGoalType({
     super.key,
     required this.goal,
     required this.onSelect,

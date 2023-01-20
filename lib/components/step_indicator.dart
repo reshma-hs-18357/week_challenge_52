@@ -1,10 +1,9 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class StepIndicator extends StatelessWidget {
-  int step = 1;
-  StepIndicator({super.key, required this.step});
+  final int step;
+  const StepIndicator({super.key, required this.step});
 
   @override
   Widget build(BuildContext context) {

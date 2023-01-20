@@ -1,5 +1,3 @@
-//  unrelated_type_equality_checks, curly_braces_in_flow_control_structures, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/week_month_model.dart';
 

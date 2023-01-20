@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/new_goal_screen.dart';
@@ -47,18 +46,18 @@ class AddGoal extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 "How would you like to create your goal?",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              Text(
+              const Text(
                 "Choose how often you want to save money to reach your goal",
                 style: TextStyle(fontSize: 14),
               ),
@@ -71,7 +70,7 @@ class AddGoal extends StatelessWidget {
                 child: Card(
                   elevation: 10,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(80)),
                       color: Colors.white,
                     ),
@@ -113,17 +112,17 @@ class AddGoal extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
                   goal.savingsChoice = SavingsChoice.monthly;
                   navigateToNewGoalScreen(goal);
                 },
                 child: Card(
-                  color: Color.fromRGBO(77, 182, 77, 1),
+                  color: const Color.fromRGBO(77, 182, 77, 1),
                   elevation: 10,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(80),
                       ),

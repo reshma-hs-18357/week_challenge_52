@@ -1,11 +1,10 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:week_challenge_52/models/goal_progress_model.dart';
 
 class GoalProgress extends StatelessWidget {
-  GoalProgressModel goalProgressModel;
-  GoalProgress({super.key, required this.goalProgressModel});
+  final GoalProgressModel goalProgressModel;
+  const GoalProgress({super.key, required this.goalProgressModel});
 
   @override
   Widget build(BuildContext context) {

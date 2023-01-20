@@ -28,8 +28,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
   void initState() {
     goal = widget.goal;
     int upcoming = goal.upcomingWeekOrMonth;
-    print("up $upcoming");
-    // List<WeekOrMonthModel> totalWeeksOrMonth = _getTotalWeeksOrMonths();
+    List<WeekOrMonthModel> totalWeeksOrMonth = _getTotalWeeksOrMonths();
     // for (int i = 0; i < upcoming; i++) {
     //   totalWeeksOrMonth[i].weekMonthModelType = WeekMonthModelType.completed;
     //   completedWeeksorMonths.add(totalWeeksOrMonth[i]);
@@ -41,6 +40,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
     //   totalWeeksOrMonth[j].weekMonthModelType = WeekMonthModelType.remaining;
     //   remainingWeeksorMonths.add(totalWeeksOrMonth[j]);
     // }
+    // totalWeeksOrMonth.clear();
     remainingWeeksorMonths = _getTotalWeeksOrMonths();
     remainingWeeksorMonths[upcoming].weekMonthModelType =
         WeekMonthModelType.upcoming;

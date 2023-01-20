@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NextButtonComponent extends StatelessWidget {
-  int index;
-  bool isButtonEnabled;
-  void Function() onPressed;
-  NextButtonComponent(
+  final int index;
+  final bool isButtonEnabled;
+  final void Function() onPressed;
+  const NextButtonComponent(
       {Key? key,
       required this.onPressed,
       required this.index,

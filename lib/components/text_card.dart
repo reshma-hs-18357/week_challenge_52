@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class TextCard extends StatelessWidget {
   final String text;
-  final void Function() onExpanding;
-  final bool isOpen;
+  final void Function()? onExpanding;
+  final bool? isOpen;
   const TextCard(
       {super.key,
       required this.text,
@@ -29,7 +29,9 @@ class TextCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              (text == "Upcoming Deposit")
+              (text == "Upcoming Deposit" ||
+                      text == "Weekly Deposit" ||
+                      text == "Monthly Deposit")
                   ? const Text("")
                   : IconButton(
                       icon: (isOpen == true)

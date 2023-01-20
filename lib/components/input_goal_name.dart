@@ -1,13 +1,12 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class InputGoalName extends StatefulWidget {
-  Goal goal;
-  bool back;
-  void Function(String value) isValid;
-  InputGoalName(
+  final Goal goal;
+  final bool back;
+  final void Function(String value) isValid;
+  const InputGoalName(
       {super.key,
       required this.goal,
       required this.isValid,

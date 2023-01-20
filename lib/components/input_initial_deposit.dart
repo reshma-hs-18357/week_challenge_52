@@ -1,14 +1,12 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class InputInitialDeposit extends StatefulWidget {
-  bool back;
-  Goal goal;
-  void Function(double initialDeposit) onInput;
-  InputInitialDeposit(
+  final bool back;
+  final Goal goal;
+  final void Function(double initialDeposit) onInput;
+  const InputInitialDeposit(
       {super.key,
       required this.goal,
       required this.onInput,

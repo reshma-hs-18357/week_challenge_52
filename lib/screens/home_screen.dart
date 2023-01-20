@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last,
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/about_screen.dart';
@@ -39,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Goal> getGoalListAfterFilter() {
-    print(filter);
     if (filter == Filter.weekly) {
       newGoalList.clear();
       for (int i = 0; i < goalList.length; i++) {
@@ -55,8 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     } else {
-      newGoalList.clear();
-      newGoalList.addAll(goalList);
+      return goalList;
     }
     return newGoalList;
   }
@@ -66,9 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return GoalsScreen(
         goalList: getGoalListAfterFilter(),
         onCardTapped: onCardTapped,
+        filter: filter,
       );
     } else {
-      return AboutScreen();
+      return const AboutScreen();
     }
   }
 
@@ -87,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PreferredSize _appBar() {
     if (_selectedIndex == 0 || _selectedIndex == 1) {
       return PreferredSize(
+          preferredSize: const Size.fromHeight(72),
           child: AppBar(
             centerTitle: true,
             backgroundColor: _backgroundColor(),
@@ -102,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            title: Text(
+            title: const Text(
               "52 Weeks",
               style: TextStyle(
                   fontSize: 24,
@@ -113,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: PopupMenuButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.menu_outlined,
                     size: 30,
                     color: Colors.black,
@@ -123,13 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       value: Filter.all,
                       child: Text("All"),
                     ),
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: Filter.weekly,
-                      child: const Text("Weekly"),
+                      child: Text("Weekly"),
                     ),
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: Filter.monthly,
-                      child: const Text("Monthly"),
+                      child: Text("Monthly"),
                     ),
                   ],
                   onSelected: (value) {
@@ -140,10 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               )
             ],
-          ),
-          preferredSize: Size.fromHeight(72));
+          ));
     } else {
       return PreferredSize(
+        preferredSize: const Size.fromHeight(50),
         child: AppBar(
           backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
           title: const Text(
@@ -155,7 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        preferredSize: Size.fromHeight(50),
       );
     }
   }
@@ -172,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 90,
         child: BottomNavigationBar(
           iconSize: 30,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.stairs_outlined),
               label: 'Goals',
@@ -220,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
               goalList = goalService.fetchGoalList();
             });
           },
-          child: Icon(Icons.add, size: 40),
+          child: const Icon(Icons.add, size: 40),
         ),
       );
 

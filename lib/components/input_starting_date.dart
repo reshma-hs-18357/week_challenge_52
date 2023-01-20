@@ -1,14 +1,12 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:week_challenge_52/components/heading_component.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class InputStartDate extends StatefulWidget {
-  Goal goal;
-  void Function(DateTime value) onPick;
-  InputStartDate({super.key, required this.goal, required this.onPick});
+  final Goal goal;
+  final void Function(DateTime value) onPick;
+  const InputStartDate({super.key, required this.goal, required this.onPick});
 
   @override
   State<InputStartDate> createState() => _InputStartDateState();
