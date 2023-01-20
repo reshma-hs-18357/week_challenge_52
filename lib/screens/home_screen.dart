@@ -17,8 +17,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   List<Goal> goalList = [];
+  List<Goal> newGoalList = [];
   List<Widget> screens = [];
   late GoalService goalService;
+  Filter filter = Filter.all;
 
   List<Goal> _fetchGoalList() {
     goalList = goalService.fetchGoalList();
@@ -31,13 +33,40 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       goalList = _fetchGoalList();
     });
+
     super.initState();
     GoalService.instance.addingGoals();
   }
 
+  List<Goal> getGoalListAfterFilter() {
+    print(filter);
+    if (filter == Filter.weekly) {
+      newGoalList.clear();
+      for (int i = 0; i < goalList.length; i++) {
+        if (goalList[i].savingsChoice == SavingsChoice.weekly) {
+          newGoalList.add(goalList[i]);
+        }
+      }
+    } else if (filter == Filter.monthly) {
+      newGoalList.clear();
+      for (int i = 0; i < goalList.length; i++) {
+        if (goalList[i].savingsChoice == SavingsChoice.monthly) {
+          newGoalList.add(goalList[i]);
+        }
+      }
+    } else {
+      newGoalList.clear();
+      newGoalList.addAll(goalList);
+    }
+    return newGoalList;
+  }
+
   Widget _returnSelectedIndexWidget(int selectedIndex) {
     if (selectedIndex == 0 || selectedIndex == 1) {
-      return GoalsScreen(goalList: goalList, onCardTapped: onCardTapped);
+      return GoalsScreen(
+        goalList: getGoalListAfterFilter(),
+        onCardTapped: onCardTapped,
+      );
     } else {
       return AboutScreen();
     }
@@ -82,11 +111,32 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.all(10),
-                child: Image.asset(
-                  'assets/images/crown.png',
-                  height: 30,
-                  width: 30,
+                padding: const EdgeInsets.all(10.0),
+                child: PopupMenuButton(
+                  icon: Icon(
+                    Icons.menu_outlined,
+                    size: 30,
+                    color: Colors.black,
+                  ),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      value: Filter.all,
+                      child: Text("All"),
+                    ),
+                    PopupMenuItem(
+                      value: Filter.weekly,
+                      child: const Text("Weekly"),
+                    ),
+                    PopupMenuItem(
+                      value: Filter.monthly,
+                      child: const Text("Monthly"),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    setState(() {
+                      filter = value;
+                    });
+                  },
                 ),
               )
             ],
@@ -180,16 +230,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onCardTapped(Goal goal) async {
-    Goal newGoal = await Navigator.push(
+  void onCardTapped(Goal? goal) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GoalDetailView(goal: goal),
+        builder: (context) => GoalDetailView(goal: goal!),
       ),
     );
     setState(() {
-      goal = newGoal;
-      print(goal.toString());
+      goalList = GoalService.instance.fetchGoalList();
     });
   }
 }
+
+enum Filter { all, weekly, monthly }

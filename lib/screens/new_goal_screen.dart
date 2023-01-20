@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_challenge_52/components/back_button.dart';
@@ -12,8 +11,8 @@ import 'package:week_challenge_52/components/summary_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class NewGoalScreen extends StatefulWidget {
-  Goal goal;
-  NewGoalScreen({super.key, required this.goal});
+  final Goal goal;
+  const NewGoalScreen({super.key, required this.goal});
 
   @override
   State<NewGoalScreen> createState() => _NewGoalScreenState();

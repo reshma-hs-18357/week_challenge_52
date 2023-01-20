@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_progress.dart';
 import 'package:week_challenge_52/components/text_card.dart';
@@ -9,8 +8,8 @@ import 'package:week_challenge_52/models/goal_progress_model.dart';
 import 'package:week_challenge_52/models/week_month_model.dart';
 
 class GoalDetailView extends StatefulWidget {
-  Goal goal;
-  GoalDetailView({super.key, required this.goal});
+  final Goal goal;
+  const GoalDetailView({super.key, required this.goal});
 
   @override
   State<GoalDetailView> createState() => _GoalDetailViewState();
@@ -18,6 +17,8 @@ class GoalDetailView extends StatefulWidget {
 
 class _GoalDetailViewState extends State<GoalDetailView> {
   late Goal goal;
+  bool completedOpen = false;
+  bool remainingOpen = false;
   List<dynamic> listItems = [];
   List<WeekOrMonthModel> remainingWeeksorMonths = [];
   List<WeekOrMonthModel> upcomingWeekorMonth = [];
@@ -26,49 +27,71 @@ class _GoalDetailViewState extends State<GoalDetailView> {
   @override
   void initState() {
     goal = widget.goal;
+    int upcoming = goal.upcomingWeekOrMonth;
+    print("up $upcoming");
+    // List<WeekOrMonthModel> totalWeeksOrMonth = _getTotalWeeksOrMonths();
+    // for (int i = 0; i < upcoming; i++) {
+    //   totalWeeksOrMonth[i].weekMonthModelType = WeekMonthModelType.completed;
+    //   completedWeeksorMonths.add(totalWeeksOrMonth[i]);
+    // }
+    // totalWeeksOrMonth[upcoming].weekMonthModelType =
+    //     WeekMonthModelType.upcoming;
+    // upcomingWeekorMonth.add(totalWeeksOrMonth[upcoming]);
+    // for (int j = upcoming + 1; j < totalWeeksOrMonth.length; j++) {
+    //   totalWeeksOrMonth[j].weekMonthModelType = WeekMonthModelType.remaining;
+    //   remainingWeeksorMonths.add(totalWeeksOrMonth[j]);
+    // }
     remainingWeeksorMonths = _getTotalWeeksOrMonths();
-    remainingWeeksorMonths[0].weekMonthModelType = WeekMonthModelType.upcoming;
-    upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
-    remainingWeeksorMonths.removeAt(0);
+    remainingWeeksorMonths[upcoming].weekMonthModelType =
+        WeekMonthModelType.upcoming;
+    upcomingWeekorMonth.add(remainingWeeksorMonths[upcoming]);
+    for (int i = 0; i < upcoming; i++) {
+      remainingWeeksorMonths[i].weekMonthModelType =
+          WeekMonthModelType.completed;
+      completedWeeksorMonths.add(remainingWeeksorMonths[i]);
+    }
+    for (int i = 0; i <= upcoming; i++) {
+      remainingWeeksorMonths.removeAt(0);
+    }
     listItems = _prepareListItems();
+    if (goal.getPercent() == 0.0) {
+      listItems.removeAt(3);
+    }
     super.initState();
   }
 
   List<WeekOrMonthModel> _getTotalWeeksOrMonths() {
-    if (widget.goal.savingsChoiceText() == "Weekly") {
+    if (goal.savingsChoiceText() == "Weekly") {
       for (int i = 0; i < 52; i++) {
         remainingWeeksorMonths.add(WeekOrMonthModel(
           upcomingWeekOrMonth: i + 1,
           savingsChoice: "Week",
           date: DateFormat('dd/MM/yy').format(DateTime(
-            widget.goal.startDate.year,
-            widget.goal.startDate.month,
-            widget.goal.startDate.day + 7 * (i),
+            goal.startDate.year,
+            goal.startDate.month,
+            goal.startDate.day + 7 * (i),
           )),
-          weeklyOrMonthlydeposit:
-              (widget.goal.savingsType == SavingsType.constant)
-                  ? widget.goal.initialDeposit
-                  : widget.goal.initialDeposit * (i + 1),
+          weeklyOrMonthlydeposit: (goal.savingsType == SavingsType.constant)
+              ? goal.initialDeposit
+              : goal.initialDeposit * (i + 1),
           weekMonthModelType: WeekMonthModelType.remaining,
         ));
       }
-    } else {
-      for (int i = 0; i < 12; i++) {
-        remainingWeeksorMonths.add(WeekOrMonthModel(
-          upcomingWeekOrMonth: i + 1,
-          savingsChoice: "Month",
-          date: DateFormat('dd/MM/yy').format(DateTime(
-            widget.goal.startDate.year,
-            widget.goal.startDate.month,
-            widget.goal.startDate.day + 7 * (i),
-          )),
-          weeklyOrMonthlydeposit:
-              (widget.goal.savingsType == SavingsType.constant)
-                  ? widget.goal.initialDeposit
-                  : widget.goal.initialDeposit * (i + 1),
-          weekMonthModelType: WeekMonthModelType.remaining,
-        ));
-      }
+    }
+    for (int i = 0; i < 12; i++) {
+      remainingWeeksorMonths.add(WeekOrMonthModel(
+        upcomingWeekOrMonth: i + 1,
+        savingsChoice: "Month",
+        date: DateFormat('dd/MM/yy').format(DateTime(
+          goal.startDate.year,
+          goal.startDate.month + i,
+          goal.startDate.day,
+        )),
+        weeklyOrMonthlydeposit: (goal.savingsType == SavingsType.constant)
+            ? goal.initialDeposit
+            : goal.initialDeposit * (i + 1),
+        weekMonthModelType: WeekMonthModelType.remaining,
+      ));
     }
     return remainingWeeksorMonths;
   }
@@ -80,7 +103,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
         title: Text(
-          widget.goal.name,
+          goal.name,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -112,18 +135,24 @@ class _GoalDetailViewState extends State<GoalDetailView> {
           } else if (element is String) {
             return TextCard(
               text: element,
+              onExpanding: (element == "Completed Deposit")
+                  ? onExpandingCompleted
+                  : onExpandingRemaining,
+              isOpen: (element == "Completed Deposit")
+                  ? completedOpen
+                  : remainingOpen,
             );
           } else if (element is WeekOrMonthModel) {
             return WeekOrMonthCard(
               weekOrMonthModel: element,
               onTapped: () {
                 setState(() {
-                  print(goal.getPercent());
                   if (goal.getPercent() < 1) {
                     goal.upcomingWeekOrMonth++;
                     remainingWeeksorMonths[0].weekMonthModelType =
                         WeekMonthModelType.upcoming;
-                    element.weekMonthModelType = WeekMonthModelType.completed;
+                    upcomingWeekorMonth[0].weekMonthModelType =
+                        WeekMonthModelType.completed;
                     completedWeeksorMonths.add(upcomingWeekorMonth[0]);
                     upcomingWeekorMonth.removeAt(0);
                     upcomingWeekorMonth.add(remainingWeeksorMonths[0]);
@@ -135,6 +164,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
                     upcomingWeekorMonth.removeAt(0);
                     listItems = _prepareListItems();
                     listItems.removeAt(1);
+                    listItems.removeAt(listItems.length - 1);
                   }
                 });
               },
@@ -158,9 +188,37 @@ class _GoalDetailViewState extends State<GoalDetailView> {
     );
     listItems.add("Upcoming Deposit");
     listItems.addAll(upcomingWeekorMonth);
-    listItems.add("All Deposit");
-    listItems.addAll(completedWeeksorMonths);
-    listItems.addAll(remainingWeeksorMonths);
+    listItems.add("Completed Deposit");
+    if (completedOpen == false) {
+      listItems.addAll(completedWeeksorMonths);
+    }
+
+    listItems.add("Remaining Deposit");
+    if (remainingOpen == false) {
+      listItems.addAll(remainingWeeksorMonths);
+    }
     return listItems;
+  }
+
+  void onExpandingCompleted() {
+    setState(() {
+      if (completedOpen == true) {
+        completedOpen = false;
+      } else {
+        completedOpen = true;
+      }
+      listItems = _prepareListItems();
+    });
+  }
+
+  void onExpandingRemaining() {
+    setState(() {
+      if (remainingOpen == true) {
+        remainingOpen = false;
+      } else {
+        remainingOpen = true;
+      }
+      listItems = _prepareListItems();
+    });
   }
 }

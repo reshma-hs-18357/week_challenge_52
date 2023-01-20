@@ -1,13 +1,13 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/new_goal_screen.dart';
 
 class AddGoal extends StatelessWidget {
-  Goal goal;
-  AddGoal({Key? key, required this.goal}) : super(key: key);
+  final Goal goal;
+  const AddGoal({super.key, required this.goal});
 
-  Color color = const Color.fromRGBO(242, 239, 248, 1);
+  static Color color = const Color.fromRGBO(242, 239, 248, 1);
 
   @override
   Widget build(BuildContext context) {

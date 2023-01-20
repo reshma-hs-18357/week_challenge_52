@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
+import 'package:week_challenge_52/screens/home_screen.dart';
 
 class GoalsScreen extends StatelessWidget {
   final List<Goal> goalList;
-  final void Function(Goal goal) onCardTapped;
-  GoalsScreen({super.key, required this.goalList, required this.onCardTapped});
-
-  late Goal goal;
+  final void Function(Goal? goal) onCardTapped;
+  const GoalsScreen({
+    super.key,
+    required this.goalList,
+    required this.onCardTapped,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class GoalsScreen extends StatelessWidget {
       return ListView.builder(
         itemCount: goalList.length,
         itemBuilder: ((context, index) {
-          goal = goalList[index];
+          Goal goal = goalList[index];
           return GoalCard(
             goal: goal,
             onCardTapped: onCardTapped,
