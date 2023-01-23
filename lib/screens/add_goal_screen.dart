@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:week_challenge_52/screens/new_goal_screen.dart';
 
 class AddGoal extends StatelessWidget {
   final Goal goal;
+  final void Function(Goal goal) navigateToNewGoalScreen;
   const AddGoal({
     super.key,
     required this.goal,
+    required this.navigateToNewGoalScreen,
   });
 
   static Color color = const Color.fromRGBO(242, 239, 248, 1);
 
   @override
   Widget build(BuildContext context) {
-    void navigateToNewGoalScreen(Goal goal) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => NewGoalScreen(
-            goal: goal,
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: color,
       appBar: AppBar(

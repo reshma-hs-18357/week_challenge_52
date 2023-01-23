@@ -4,6 +4,7 @@ import 'package:week_challenge_52/components/title_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/add_goal_screen.dart';
 import 'package:week_challenge_52/screens/detail_view_screen.dart';
+import 'package:week_challenge_52/screens/new_goal_screen.dart';
 import 'package:week_challenge_52/service/goal_service.dart';
 
 class GoalsScreen extends StatefulWidget {
@@ -216,7 +217,8 @@ class _GoalsScreenState extends State<GoalsScreen> {
         Goal newGoal = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddGoal(goal: goal),
+            builder: (context) => AddGoal(
+                goal: goal, navigateToNewGoalScreen: navigateToNewGoalScreen),
           ),
         );
         setState(() {
@@ -238,6 +240,16 @@ class _GoalsScreenState extends State<GoalsScreen> {
     setState(() {
       goalList = goalService.fetchGoalList();
     });
+  }
+
+  void navigateToNewGoalScreen(Goal goal) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NewGoalScreen(
+          goal: goal,
+        ),
+      ),
+    );
   }
 }
 
