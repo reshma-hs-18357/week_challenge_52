@@ -8,6 +8,8 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static Color bgColor = const Color.fromRGBO(242, 239, 248, 1);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

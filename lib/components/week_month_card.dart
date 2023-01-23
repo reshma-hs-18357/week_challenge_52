@@ -109,34 +109,6 @@ class WeekOrMonthCard extends StatelessWidget {
     }
     return iconButton;
   }
-  //   if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.upcoming) {
-  //     return IconButton(
-  //         onPressed: onTapped,
-  //         icon: const Icon(
-  //           Icons.circle_outlined,
-  //           size: 40,
-  //           color: Color.fromRGBO(16, 159, 40, 1),
-  //         ));
-  //   } else if (weekOrMonthModel.weekMonthModelType ==
-  //       WeekMonthModelType.completed) {
-  //     return IconButton(
-  //       onPressed: () {},
-  //       icon: Image.asset(
-  //         "assets/images/completed.png",
-  //         scale: 4,
-  //       ),
-  //     );
-  //   } else {
-  //     return IconButton(
-  //       onPressed: () {},
-  //       icon: const Icon(
-  //         Icons.lock_outlined,
-  //         size: 40,
-  //         color: Color.fromRGBO(190, 186, 191, 1),
-  //       ),
-  //     );
-  //   }
-  // }
 
   Color _getTextColor() {
     if (weekOrMonthModel.weekMonthModelType == WeekMonthModelType.remaining) {

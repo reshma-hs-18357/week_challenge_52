@@ -4,11 +4,26 @@ class TextCard extends StatelessWidget {
   final String text;
   final void Function()? onExpanding;
   final bool? isOpen;
-  const TextCard(
-      {super.key,
-      required this.text,
-      required this.onExpanding,
-      required this.isOpen});
+  final double totalDeposited;
+  final double remainingToDeposit;
+  const TextCard({
+    super.key,
+    required this.text,
+    required this.onExpanding,
+    required this.isOpen,
+    required this.totalDeposited,
+    required this.remainingToDeposit,
+  });
+
+  String getText() {
+    if (text == "Completed Deposit") {
+      return "$text ($totalDeposited)";
+    } else if (text == "Remaining Deposit") {
+      return "$text ($remainingToDeposit)";
+    } else {
+      return text;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +36,7 @@ class TextCard extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                text,
+                getText(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -29,9 +44,7 @@ class TextCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              (text == "Upcoming Deposit" ||
-                      text == "Weekly Deposit" ||
-                      text == "Monthly Deposit")
+              (text == "Upcoming Deposit")
                   ? const Text("")
                   : IconButton(
                       icon: (isOpen == true)

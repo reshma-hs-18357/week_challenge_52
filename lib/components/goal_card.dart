@@ -6,7 +6,11 @@ import 'package:percent_indicator/percent_indicator.dart';
 class GoalCard extends StatelessWidget {
   final Goal goal;
   final void Function(Goal goal) onCardTapped;
-  const GoalCard({super.key, required this.goal, required this.onCardTapped});
+  const GoalCard({
+    super.key,
+    required this.goal,
+    required this.onCardTapped,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class GoalCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
         child: Card(
-          elevation: 10,
+          elevation: 5,
           color: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -50,10 +54,11 @@ class GoalCard extends StatelessWidget {
                         child: Text(
                           goal.savingsChoiceText(),
                           style: TextStyle(
-                              fontSize: 12,
-                              color: (goal.savingsChoiceText() == "Weekly")
-                                  ? const Color.fromRGBO(94, 178, 93, 1)
-                                  : const Color.fromRGBO(227, 93, 133, 1)),
+                            fontSize: 12,
+                            color: (goal.savingsChoiceText() == "Weekly")
+                                ? const Color.fromRGBO(94, 178, 93, 1)
+                                : const Color.fromRGBO(227, 93, 133, 1),
+                          ),
                         ),
                       ),
                     ),

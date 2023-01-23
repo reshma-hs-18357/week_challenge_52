@@ -4,7 +4,10 @@ import 'package:week_challenge_52/screens/new_goal_screen.dart';
 
 class AddGoal extends StatelessWidget {
   final Goal goal;
-  const AddGoal({super.key, required this.goal});
+  const AddGoal({
+    super.key,
+    required this.goal,
+  });
 
   static Color color = const Color.fromRGBO(242, 239, 248, 1);
 

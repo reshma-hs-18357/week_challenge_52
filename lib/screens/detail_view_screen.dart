@@ -9,7 +9,10 @@ import 'package:week_challenge_52/models/week_month_model.dart';
 
 class GoalDetailView extends StatefulWidget {
   final Goal goal;
-  const GoalDetailView({super.key, required this.goal});
+  const GoalDetailView({
+    super.key,
+    required this.goal,
+  });
 
   @override
   State<GoalDetailView> createState() => _GoalDetailViewState();
@@ -23,12 +26,13 @@ class _GoalDetailViewState extends State<GoalDetailView> {
   List<WeekOrMonthModel> remainingWeeksorMonths = [];
   List<WeekOrMonthModel> upcomingWeekorMonth = [];
   List<WeekOrMonthModel> completedWeeksorMonths = [];
+  static const Color _color = Color.fromRGBO(242, 239, 248, 1);
 
   @override
   void initState() {
     goal = widget.goal;
     int upcoming = goal.upcomingWeekOrMonth;
-    List<WeekOrMonthModel> totalWeeksOrMonth = _getTotalWeeksOrMonths();
+    // List<WeekOrMonthModel> totalWeeksOrMonth = _getTotalWeeksOrMonths();
     // for (int i = 0; i < upcoming; i++) {
     //   totalWeeksOrMonth[i].weekMonthModelType = WeekMonthModelType.completed;
     //   completedWeeksorMonths.add(totalWeeksOrMonth[i]);
@@ -77,21 +81,22 @@ class _GoalDetailViewState extends State<GoalDetailView> {
           weekMonthModelType: WeekMonthModelType.remaining,
         ));
       }
-    }
-    for (int i = 0; i < 12; i++) {
-      remainingWeeksorMonths.add(WeekOrMonthModel(
-        upcomingWeekOrMonth: i + 1,
-        savingsChoice: "Month",
-        date: DateFormat('dd/MM/yy').format(DateTime(
-          goal.startDate.year,
-          goal.startDate.month + i,
-          goal.startDate.day,
-        )),
-        weeklyOrMonthlydeposit: (goal.savingsType == SavingsType.constant)
-            ? goal.initialDeposit
-            : goal.initialDeposit * (i + 1),
-        weekMonthModelType: WeekMonthModelType.remaining,
-      ));
+    } else {
+      for (int i = 0; i < 12; i++) {
+        remainingWeeksorMonths.add(WeekOrMonthModel(
+          upcomingWeekOrMonth: i + 1,
+          savingsChoice: "Month",
+          date: DateFormat('dd/MM/yy').format(DateTime(
+            goal.startDate.year,
+            goal.startDate.month + i,
+            goal.startDate.day,
+          )),
+          weeklyOrMonthlydeposit: (goal.savingsType == SavingsType.constant)
+              ? goal.initialDeposit
+              : goal.initialDeposit * (i + 1),
+          weekMonthModelType: WeekMonthModelType.remaining,
+        ));
+      }
     }
     return remainingWeeksorMonths;
   }
@@ -99,9 +104,9 @@ class _GoalDetailViewState extends State<GoalDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+      backgroundColor: _color,
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+        backgroundColor: _color,
         title: Text(
           goal.name,
           style: const TextStyle(
@@ -141,14 +146,20 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               isOpen: (element == "Completed Deposit")
                   ? completedOpen
                   : remainingOpen,
+              totalDeposited: (element == "Completed Deposit")
+                  ? goal.getTotalDepositedAmt()
+                  : 0,
+              remainingToDeposit: (element == "Remaining Deposit")
+                  ? (goal.getTotalSavings() - goal.getTotalDepositedAmt())
+                  : 0,
             );
           } else if (element is WeekOrMonthModel) {
             return WeekOrMonthCard(
               weekOrMonthModel: element,
               onTapped: () {
                 setState(() {
+                  goal.upcomingWeekOrMonth++;
                   if (goal.getPercent() < 1) {
-                    goal.upcomingWeekOrMonth++;
                     remainingWeeksorMonths[0].weekMonthModelType =
                         WeekMonthModelType.upcoming;
                     upcomingWeekorMonth[0].weekMonthModelType =
@@ -166,6 +177,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
                     listItems.removeAt(1);
                     listItems.removeAt(listItems.length - 1);
                   }
+                  print(goal.upcomingWeekOrMonth);
                 });
               },
             );
@@ -208,6 +220,10 @@ class _GoalDetailViewState extends State<GoalDetailView> {
         completedOpen = true;
       }
       listItems = _prepareListItems();
+      if (goal.getPercent() == 1) {
+        listItems.removeAt(1);
+        listItems.removeLast();
+      }
     });
   }
 
@@ -219,6 +235,9 @@ class _GoalDetailViewState extends State<GoalDetailView> {
         remainingOpen = true;
       }
       listItems = _prepareListItems();
+      if (goal.upcomingWeekOrMonth == 0) {
+        listItems.removeAt(3);
+      }
     });
   }
 }

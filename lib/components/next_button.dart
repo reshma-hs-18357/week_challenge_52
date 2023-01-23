@@ -4,12 +4,12 @@ class NextButtonComponent extends StatelessWidget {
   final int index;
   final bool isButtonEnabled;
   final void Function() onPressed;
-  const NextButtonComponent(
-      {Key? key,
-      required this.onPressed,
-      required this.index,
-      required this.isButtonEnabled})
-      : super(key: key);
+  const NextButtonComponent({
+    super.key,
+    required this.onPressed,
+    required this.index,
+    required this.isButtonEnabled,
+  });
 
   TextStyle textStyle() {
     return const TextStyle(fontSize: 14);

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class BackButtonComponent extends StatelessWidget {
   final int index;
   final void Function() onPressed;
-  const BackButtonComponent(
-      {Key? key, required this.onPressed, required this.index})
-      : super(key: key);
+  const BackButtonComponent({
+    super.key,
+    required this.onPressed,
+    required this.index,
+  });
 
   TextStyle textStyle() {
     return const TextStyle(fontSize: 14);

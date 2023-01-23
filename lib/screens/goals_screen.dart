@@ -2,21 +2,94 @@ import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/goal_card.dart';
 import 'package:week_challenge_52/components/title_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:week_challenge_52/screens/home_screen.dart';
+import 'package:week_challenge_52/screens/add_goal_screen.dart';
+import 'package:week_challenge_52/screens/detail_view_screen.dart';
+import 'package:week_challenge_52/service/goal_service.dart';
 
-class GoalsScreen extends StatelessWidget {
-  final List<Goal> goalList;
-  final void Function(Goal goal) onCardTapped;
-  final Filter filter;
-  const GoalsScreen({
-    super.key,
-    required this.goalList,
-    required this.onCardTapped,
-    required this.filter,
-  });
+class GoalsScreen extends StatefulWidget {
+  const GoalsScreen({super.key});
+  @override
+  State<GoalsScreen> createState() => _GoalsScreenState();
+}
+
+class _GoalsScreenState extends State<GoalsScreen> {
+  List<Goal> goalList = [];
+  List<Goal> newGoalList = [];
+  late GoalService goalService;
+  Filter filter = Filter.all;
+  static Color bgColor = const Color.fromRGBO(242, 239, 248, 1);
+
+  @override
+  void initState() {
+    GoalService goalService = GoalService.instance;
+    setState(() {
+      goalService.addingGoals();
+      goalList = goalService.fetchGoalList();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _goalScreenBody();
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(72),
+        child: AppBar(
+          centerTitle: true,
+          backgroundColor: bgColor,
+          leading: Padding(
+            padding: const EdgeInsets.all(10),
+            child: CircleAvatar(
+              radius: 22,
+              child: Image.asset(
+                'assets/images/piggy.png',
+                height: 44,
+                width: 44,
+              ),
+            ),
+          ),
+          title: const Text(
+            "52 Weeks",
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: PopupMenuButton(
+                icon: const Icon(
+                  Icons.menu_outlined,
+                  size: 30,
+                  color: Colors.black,
+                ),
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: Filter.all,
+                    child: Text("All"),
+                  ),
+                  const PopupMenuItem(
+                    value: Filter.weekly,
+                    child: Text("Weekly"),
+                  ),
+                  const PopupMenuItem(
+                    value: Filter.monthly,
+                    child: Text("Monthly"),
+                  ),
+                ],
+                onSelected: (value) {
+                  setState(() {
+                    filter = value;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+      body: _goalScreenBody(),
+      floatingActionButton: _buildNavigateButton(),
+    );
   }
 
   Widget _goalScreenBody() {
@@ -25,10 +98,11 @@ class GoalsScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 60),
           SizedBox(
-              height: 251,
-              width: 210,
-              child: Image.asset('assets/images/money.png',
-                  fit: BoxFit.fitHeight)),
+            height: 251,
+            width: 210,
+            child:
+                Image.asset('assets/images/money.png', fit: BoxFit.fitHeight),
+          ),
           const Padding(
             padding: EdgeInsets.fromLTRB(53, 30, 53, 16),
             child: SizedBox(
@@ -66,10 +140,11 @@ class GoalsScreen extends StatelessWidget {
           }),
         );
       } else {
+        newGoalList = _getGoalListAfterFilter();
         return ListView.builder(
-          itemCount: goalList.length,
+          itemCount: newGoalList.length,
           itemBuilder: ((context, index) {
-            Goal goal = goalList[index];
+            Goal goal = newGoalList[index];
             return GoalCard(
               goal: goal,
               onCardTapped: onCardTapped,
@@ -91,10 +166,79 @@ class GoalsScreen extends StatelessWidget {
         monthlyGoals.add(goalList[i]);
       }
     }
-    listItems.add("Weekly Goals");
-    listItems.addAll(weeklyGoals);
-    listItems.add("Monthly Goals");
-    listItems.addAll(monthlyGoals);
+    if (weeklyGoals.isNotEmpty) {
+      listItems.add("Weekly Goals");
+      listItems.addAll(weeklyGoals);
+    }
+    if (monthlyGoals.isNotEmpty) {
+      listItems.add("Monthly Goals");
+      listItems.addAll(monthlyGoals);
+    }
+
     return listItems;
   }
+
+  List<Goal> _getGoalListAfterFilter() {
+    if (filter == Filter.weekly) {
+      newGoalList.clear();
+      for (int i = 0; i < goalList.length; i++) {
+        if (goalList[i].savingsChoice == SavingsChoice.weekly) {
+          newGoalList.add(goalList[i]);
+        }
+      }
+    } else if (filter == Filter.monthly) {
+      newGoalList.clear();
+      for (int i = 0; i < goalList.length; i++) {
+        if (goalList[i].savingsChoice == SavingsChoice.monthly) {
+          newGoalList.add(goalList[i]);
+        }
+      }
+    } else {
+      return goalList;
+    }
+    return newGoalList;
+  }
+
+  Widget _buildNavigateButton() {
+    return FloatingActionButton(
+      backgroundColor: Colors.green,
+      onPressed: () async {
+        Goal goal = Goal(
+          id: goalList.length,
+          name: "",
+          savingsChoice: SavingsChoice.weekly,
+          savingsType: SavingsType.constant,
+          initialDeposit: 0.00,
+          startDate: DateTime.now(),
+          upcomingWeekOrMonth: 0,
+          savings: 0.00,
+        );
+        Goal newGoal = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddGoal(goal: goal),
+          ),
+        );
+        setState(() {
+          goalService.postGoals(newGoal);
+          goalList = goalService.fetchGoalList();
+        });
+      },
+      child: const Icon(Icons.add, size: 40),
+    );
+  }
+
+  void onCardTapped(Goal goal) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoalDetailView(goal: goal),
+      ),
+    );
+    setState(() {
+      goalList = goalService.fetchGoalList();
+    });
+  }
 }
+
+enum Filter { all, weekly, monthly }

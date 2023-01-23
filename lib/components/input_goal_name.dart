@@ -6,11 +6,12 @@ class InputGoalName extends StatefulWidget {
   final Goal goal;
   final bool back;
   final void Function(String value) isValid;
-  const InputGoalName(
-      {super.key,
-      required this.goal,
-      required this.isValid,
-      required this.back});
+  const InputGoalName({
+    super.key,
+    required this.goal,
+    required this.isValid,
+    required this.back,
+  });
 
   @override
   State<InputGoalName> createState() => _InputGoalNameState();
@@ -36,7 +37,7 @@ class _InputGoalNameState extends State<InputGoalName> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeadingComponent(title: "What is your next goal ?"),
+          const HeadingComponent(title: "What is your next goal ?"),
           const SizedBox(height: 10),
           const Text(
             "What do you want to achieve? it is always good to give names to our objectives",

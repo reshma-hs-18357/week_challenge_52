@@ -3,7 +3,10 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class StepIndicator extends StatelessWidget {
   final int step;
-  const StepIndicator({super.key, required this.step});
+  const StepIndicator({
+    super.key,
+    required this.step,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,10 @@ import 'package:week_challenge_52/models/goal.dart';
 
 class NewGoalScreen extends StatefulWidget {
   final Goal goal;
-  const NewGoalScreen({super.key, required this.goal});
+  const NewGoalScreen({
+    super.key,
+    required this.goal,
+  });
 
   @override
   State<NewGoalScreen> createState() => _NewGoalScreenState();
@@ -23,6 +26,88 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
   bool valid = false;
   late Widget comp;
   bool back = false;
+  late Goal goal;
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+          title: Text(
+            "New ${widget.goal.savingsChoiceText()} Goal",
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(1, 54, 77, 1),
+            ),
+          ),
+          leadingWidth: 75,
+          leading: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              "Cancel",
+              style: TextStyle(
+                fontSize: 16,
+                color: Color.fromRGBO(153, 153, 153, 1),
+              ),
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              _stepIndicator(),
+              const SizedBox(height: 8),
+              comp = returnComponents(index, back),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    index != 4 && index != 0
+                        ? BackButtonComponent(
+                            onPressed: () {
+                              setState(() {
+                                back = true;
+                                valid = true;
+                                index -= 1;
+                                comp = returnComponents(index, back);
+                              });
+                            },
+                            index: index)
+                        : const Text("            "),
+                    index != 4
+                        ? NextButtonComponent(
+                            isButtonEnabled: valid,
+                            index: index,
+                            onPressed: () {
+                              setState(() {
+                                index += 1;
+                                back = false;
+                                comp = returnComponents(index, back);
+                                valid =
+                                    (index == 3 || back == true) ? true : false;
+                              });
+                            })
+                        : const Text(""),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _stepIndicator() {
     if (index != 4) {
@@ -107,86 +192,5 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
     } else {
       return const Text("");
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-        appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
-          title: Text(
-            "New ${widget.goal.savingsChoiceText()} Goal",
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(1, 54, 77, 1),
-            ),
-          ),
-          leadingWidth: 75,
-          leading: TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text(
-              "Cancel",
-              style: TextStyle(
-                fontSize: 16,
-                color: Color.fromRGBO(153, 153, 153, 1),
-              ),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              _stepIndicator(),
-              const SizedBox(height: 8),
-              comp = returnComponents(index, back),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    index != 4 && index != 0
-                        ? BackButtonComponent(
-                            onPressed: () {
-                              setState(() {
-                                back = true;
-                                valid = true;
-                                index -= 1;
-                                comp = returnComponents(index, back);
-                              });
-                            },
-                            index: index)
-                        : const Text("            "),
-                    index != 4
-                        ? NextButtonComponent(
-                            isButtonEnabled: valid,
-                            index: index,
-                            onPressed: () {
-                              setState(() {
-                                index += 1;
-                                back = false;
-                                comp = returnComponents(index, back);
-                                valid =
-                                    (index == 3 || back == true) ? true : false;
-                              });
-                            })
-                        : const Text(""),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

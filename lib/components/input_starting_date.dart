@@ -6,7 +6,11 @@ import 'package:week_challenge_52/models/goal.dart';
 class InputStartDate extends StatefulWidget {
   final Goal goal;
   final void Function(DateTime value) onPick;
-  const InputStartDate({super.key, required this.goal, required this.onPick});
+  const InputStartDate({
+    super.key,
+    required this.goal,
+    required this.onPick,
+  });
 
   @override
   State<InputStartDate> createState() => _InputStartDateState();

@@ -6,8 +6,11 @@ import 'package:intl/intl.dart';
 class SummaryCard extends StatelessWidget {
   final Goal goal;
   final void Function() onStartButtonTapped;
-  const SummaryCard(
-      {super.key, required this.goal, required this.onStartButtonTapped});
+  const SummaryCard({
+    super.key,
+    required this.goal,
+    required this.onStartButtonTapped,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class SummaryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          HeadingComponent(title: "Summary of your challenge"),
+          const HeadingComponent(title: "Summary of your challenge"),
           const SizedBox(height: 16),
           Card(
             elevation: 10,

@@ -6,11 +6,12 @@ class InputInitialDeposit extends StatefulWidget {
   final bool back;
   final Goal goal;
   final void Function(double initialDeposit) onInput;
-  const InputInitialDeposit(
-      {super.key,
-      required this.goal,
-      required this.onInput,
-      required this.back});
+  const InputInitialDeposit({
+    super.key,
+    required this.goal,
+    required this.onInput,
+    required this.back,
+  });
 
   @override
   State<InputInitialDeposit> createState() => _InputInitialDepositState();
@@ -43,7 +44,7 @@ class _InputInitialDepositState extends State<InputInitialDeposit> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        HeadingComponent(title: "How much do you want to save per week?"),
+        const HeadingComponent(title: "How much do you want to save per week?"),
         const SizedBox(height: 24),
         SizedBox(
           height: 48,
