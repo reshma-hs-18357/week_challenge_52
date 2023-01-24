@@ -233,6 +233,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
       backgroundColor: Colors.green,
       onPressed: () async {
         Goal goal = Goal(
+          id: _goalList.length,
           name: "",
           savingsChoice: SavingsChoice.weekly,
           savingsType: SavingsType.constant,

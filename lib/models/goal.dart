@@ -9,6 +9,7 @@ class Goal {
   int upcomingWeekOrMonth;
 
   Goal({
+    this.id,
     required this.name,
     required this.savingsChoice,
     required this.initialDeposit,
@@ -20,7 +21,7 @@ class Goal {
 
   @override
   String toString() {
-    return "Name: $name, id: $id, savings Choice: ${savingsChoiceText()}, savings type: ${savingsTypeText()}, initial deposit: $initialDeposit, savings: ${getTotalSavings()}, start date: $startDate";
+    return "Name: $name, id: $id, savings Choice: ${savingsChoiceText()}, savings type: ${savingsTypeText()}, initial deposit: $initialDeposit, savings: $savings, start date: $startDate";
   }
 
   String savingsChoiceText() {

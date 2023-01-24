@@ -18,18 +18,13 @@ class InputInitialDeposit extends StatefulWidget {
 }
 
 class _InputInitialDepositState extends State<InputInitialDeposit> {
-  String getSavingsChoice() {
-    if (widget.goal.savingsChoiceText() == "Weekly") {
-      return "weeks";
-    } else {
-      return "months";
-    }
-  }
-
   TextEditingController initialDepositCntrl = TextEditingController();
+  late Goal goal;
 
   @override
   void initState() {
+    goal = widget.goal;
+    goal.savings = 0.0;
     if (widget.back == true) {
       initialDepositCntrl.text = widget.goal.initialDeposit.toString();
     } else {
@@ -38,7 +33,14 @@ class _InputInitialDepositState extends State<InputInitialDeposit> {
     super.initState();
   }
 
-  @override
+  String getSavingsChoice() {
+    if (goal.savingsChoiceText() == "Weekly") {
+      return "weeks";
+    } else {
+      return "months";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -81,7 +83,7 @@ class _InputInitialDepositState extends State<InputInitialDeposit> {
               ),
               TextSpan(
                 text:
-                    '''The chosen values will be ${widget.goal.savingsTypeText().toLowerCase()} over the 
+                    '''The chosen values will be ${goal.savingsTypeText().toLowerCase()} over the 
      ${getSavingsChoice()}''',
               )
             ],
@@ -120,9 +122,7 @@ class _InputInitialDepositState extends State<InputInitialDeposit> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          (widget.goal.getTotalSavings() == 0.0)
-                              ? '-'
-                              : '${widget.goal.getTotalSavings()}',
+                          (goal.savings == 0.0) ? '-' : '${goal.savings}',
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )

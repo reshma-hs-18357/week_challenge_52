@@ -21,9 +21,10 @@ class _InputStartDateState extends State<InputStartDate> {
 
   @override
   void initState() {
-    super.initState();
+    widget.goal.savings = 0;
     String showDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
     datecntrl.text = showDate;
+    super.initState();
   }
 
   void _datePicker() async {
@@ -48,7 +49,8 @@ class _InputStartDateState extends State<InputStartDate> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeadingComponent(title: "From when do you want to start saving?"),
+          const HeadingComponent(
+              title: "From when do you want to start saving?"),
           const SizedBox(height: 24),
           SizedBox(
             height: 48,

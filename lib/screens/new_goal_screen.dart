@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_challenge_52/components/access_buttons.dart';
-import 'package:week_challenge_52/temp/back_button.dart';
 import 'package:week_challenge_52/components/input_initial_deposit.dart';
 import 'package:week_challenge_52/components/input_goal_name.dart';
 import 'package:week_challenge_52/components/input_starting_date.dart';
@@ -30,6 +29,12 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
   static Color bgColor = const Color.fromRGBO(242, 239, 248, 1);
 
   @override
+  void initState() {
+    goal = widget.goal;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -38,7 +43,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
         appBar: AppBar(
           backgroundColor: bgColor,
           title: Text(
-            "New ${widget.goal.savingsChoiceText()} Goal",
+            "New ${goal.savingsChoiceText()} Goal",
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -126,7 +131,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
     if (value.length >= 3) {
       setState(() {
         valid = true;
-        widget.goal.name = value;
+        goal.name = value;
       });
     } else {
       setState(() {
@@ -139,7 +144,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
     if (savingsType.index <= 1) {
       setState(() {
         valid = true;
-        widget.goal.savingsType = savingsType;
+        goal.savingsType = savingsType;
       });
     } else {
       setState(() {
@@ -152,7 +157,8 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
     if (initialDeposit > 0) {
       setState(() {
         valid = true;
-        widget.goal.initialDeposit = initialDeposit;
+        goal.initialDeposit = initialDeposit;
+        goal.savings = goal.getTotalSavings();
       });
     } else {
       setState(() {
@@ -163,11 +169,10 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
 
   void onPick(DateTime startDate) {
     String showDate = DateFormat('MMM dd, yyyy').format(startDate);
-
     if (showDate.isNotEmpty) {
       setState(() {
         valid = true;
-        widget.goal.startDate = startDate;
+        goal.startDate = startDate;
       });
     } else {
       setState(() {
@@ -177,23 +182,22 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
   }
 
   void onStartButtonTapped() {
+    print(goal.toString());
     Navigator.of(context).pop();
-    Navigator.of(context).pop(widget.goal);
+    Navigator.of(context).pop(goal);
   }
 
   Widget _returnComponents(int index, bool back) {
     if (index == 0) {
-      return InputGoalName(goal: widget.goal, isValid: isValid, back: back);
+      return InputGoalName(goal: goal, isValid: isValid, back: back);
     } else if (index == 1) {
-      return SelectGoalType(goal: widget.goal, onSelect: onSelect, back: back);
+      return SelectGoalType(goal: goal, onSelect: onSelect, back: back);
     } else if (index == 2) {
-      return InputInitialDeposit(
-          goal: widget.goal, onInput: onInput, back: back);
+      return InputInitialDeposit(goal: goal, onInput: onInput, back: back);
     } else if (index == 3) {
-      return InputStartDate(goal: widget.goal, onPick: onPick);
+      return InputStartDate(goal: goal, onPick: onPick);
     } else if (index == 4) {
-      return SummaryCard(
-          goal: widget.goal, onStartButtonTapped: onStartButtonTapped);
+      return SummaryCard(goal: goal, onStartButtonTapped: onStartButtonTapped);
     } else {
       return const Text("");
     }
