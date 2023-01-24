@@ -15,7 +15,6 @@ class GoalService {
 
   void addingGoals() {
     Goal goal1 = Goal(
-      id: 1,
       name: "weekconstant",
       savingsChoice: SavingsChoice.weekly,
       savingsType: SavingsType.constant,
@@ -26,7 +25,6 @@ class GoalService {
     );
     postGoals(goal1);
     Goal goal2 = Goal(
-      id: 1,
       name: "weekprogressive",
       savingsChoice: SavingsChoice.weekly,
       savingsType: SavingsType.progressive,
@@ -37,7 +35,6 @@ class GoalService {
     );
     postGoals(goal2);
     Goal goal3 = Goal(
-      id: 1,
       name: "monthconstant",
       savingsChoice: SavingsChoice.monthly,
       savingsType: SavingsType.constant,
@@ -48,7 +45,6 @@ class GoalService {
     );
     postGoals(goal3);
     Goal goal4 = Goal(
-      id: 1,
       name: "monthprogressive",
       savingsChoice: SavingsChoice.monthly,
       savingsType: SavingsType.progressive,

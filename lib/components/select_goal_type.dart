@@ -17,25 +17,19 @@ class SelectGoalType extends StatefulWidget {
 }
 
 class _SelectGoalTypeState extends State<SelectGoalType> {
-  late int progressive;
-  late int constant;
+  SavingsType? selectType;
   @override
   void initState() {
     if (widget.back == true) {
       if (widget.goal.savingsType == SavingsType.constant) {
         setState(() {
-          constant = 1;
-          progressive = 0;
+          selectType = SavingsType.constant;
         });
       } else {
         setState(() {
-          progressive = 1;
-          constant = 0;
+          selectType = SavingsType.progressive;
         });
       }
-    } else {
-      progressive = 0;
-      constant = 0;
     }
     super.initState();
   }
@@ -48,7 +42,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "How do you want to save your money each week",
+            "How do you want to save your money each week?",
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           ),
@@ -59,14 +53,13 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    progressive = 1;
-                    constant = 0;
+                    selectType = SavingsType.progressive;
                     widget.onSelect(SavingsType.progressive);
                   });
                 },
                 child: Card(
                   elevation: 10,
-                  color: progressive == 0
+                  color: selectType != SavingsType.progressive
                       ? Colors.white
                       : const Color.fromRGBO(77, 182, 77, 1),
                   child: Container(
@@ -85,7 +78,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: progressive == 0
+                              color: selectType != SavingsType.progressive
                                   ? const Color.fromRGBO(85, 85, 85, 1)
                                   : Colors.white,
                             ),
@@ -97,7 +90,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
                                 : "The amount saved will be increased every month",
                             style: TextStyle(
                               fontSize: 14,
-                              color: progressive == 0
+                              color: selectType != SavingsType.progressive
                                   ? const Color.fromRGBO(102, 102, 102, 1)
                                   : Colors.white,
                             ),
@@ -111,13 +104,12 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    constant = 1;
-                    progressive = 0;
+                    selectType = SavingsType.constant;
                     widget.onSelect(SavingsType.constant);
                   });
                 },
                 child: Card(
-                  color: constant == 0
+                  color: selectType != SavingsType.constant
                       ? Colors.white
                       : const Color.fromRGBO(77, 182, 77, 1),
                   elevation: 10,
@@ -137,7 +129,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: constant == 0
+                              color: selectType != SavingsType.constant
                                   ? const Color.fromRGBO(85, 85, 85, 1)
                                   : Colors.white,
                             ),
@@ -149,7 +141,7 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
                                 : "The amount saved will be the same over the months",
                             style: TextStyle(
                               fontSize: 14,
-                              color: constant == 0
+                              color: selectType != SavingsType.constant
                                   ? const Color.fromRGBO(102, 102, 102, 1)
                                   : Colors.white,
                             ),

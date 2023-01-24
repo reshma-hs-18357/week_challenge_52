@@ -41,23 +41,26 @@ class GoalCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
-                    Container(
-                      width: (goal.savingsChoiceText() == "Weekly") ? 52 : 58,
-                      height: 18,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: (goal.savingsChoiceText() == "Weekly")
-                            ? const Color.fromRGBO(221, 255, 221, 1)
-                            : const Color.fromRGBO(252, 215, 226, 1),
-                      ),
-                      child: Center(
-                        child: Text(
-                          goal.savingsChoiceText(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: (goal.savingsChoiceText() == "Weekly")
-                                ? const Color.fromRGBO(94, 178, 93, 1)
-                                : const Color.fromRGBO(227, 93, 133, 1),
+                    UnconstrainedBox(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: (goal.savingsChoiceText() == "Weekly")
+                              ? const Color.fromRGBO(221, 255, 221, 1)
+                              : const Color.fromRGBO(252, 215, 226, 1),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(9, 3, 9, 3),
+                            child: Text(
+                              goal.savingsChoiceText(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: (goal.savingsChoiceText() == "Weekly")
+                                    ? const Color.fromRGBO(94, 178, 93, 1)
+                                    : const Color.fromRGBO(227, 93, 133, 1),
+                              ),
+                            ),
                           ),
                         ),
                       ),

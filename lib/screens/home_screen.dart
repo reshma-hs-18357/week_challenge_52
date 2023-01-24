@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/about_screen.dart';
 import 'package:week_challenge_52/screens/dashboard.dart';
 import 'package:week_challenge_52/screens/goals_screen.dart';
-import 'package:week_challenge_52/service/goal_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,14 +12,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 1;
-  List<Widget> screens = [];
-  List<Goal> goalList = [];
-  @override
-  void initState() {
-    GoalService.instance.addingGoals();
-    goalList = GoalService.instance.fetchGoalList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

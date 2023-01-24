@@ -24,18 +24,18 @@ class NewGoalScreen extends StatefulWidget {
 class _NewGoalScreenState extends State<NewGoalScreen> {
   int index = 0;
   bool valid = false;
-  late Widget comp;
   bool back = false;
   late Goal goal;
+  static Color bgColor = const Color.fromRGBO(242, 239, 248, 1);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+        backgroundColor: bgColor,
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(242, 239, 248, 1),
+          backgroundColor: bgColor,
           title: Text(
             "New ${widget.goal.savingsChoiceText()} Goal",
             style: const TextStyle(
@@ -66,7 +66,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
               const SizedBox(height: 10),
               _stepIndicator(),
               const SizedBox(height: 8),
-              comp = returnComponents(index, back),
+              _returnComponents(index, back),
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(16),
@@ -80,11 +80,11 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
                                 back = true;
                                 valid = true;
                                 index -= 1;
-                                comp = returnComponents(index, back);
+                                _returnComponents(index, back);
                               });
                             },
                             index: index)
-                        : const Text("            "),
+                        : const Text(""),
                     index != 4
                         ? NextButtonComponent(
                             isButtonEnabled: valid,
@@ -93,9 +93,9 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
                               setState(() {
                                 index += 1;
                                 back = false;
-                                comp = returnComponents(index, back);
+                                _returnComponents(index, back);
                                 valid =
-                                    (index == 3 || back == true) ? true : false;
+                                    index == 3 || back == true ? true : false;
                               });
                             })
                         : const Text(""),
@@ -176,7 +176,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
     Navigator.of(context).pop(widget.goal);
   }
 
-  Widget returnComponents(int index, bool back) {
+  Widget _returnComponents(int index, bool back) {
     if (index == 0) {
       return InputGoalName(goal: widget.goal, isValid: isValid, back: back);
     } else if (index == 1) {

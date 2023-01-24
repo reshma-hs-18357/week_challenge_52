@@ -14,20 +14,45 @@ class GoalsScreen extends StatefulWidget {
 }
 
 class _GoalsScreenState extends State<GoalsScreen> {
-  List<Goal> goalList = [];
-  List<Goal> newGoalList = [];
-  late GoalService goalService;
+  List<Goal> _goalList = [];
+  List<Goal> _newGoalList = [];
+  late GoalService _goalService;
+
   Filter filter = Filter.all;
   static Color bgColor = const Color.fromRGBO(242, 239, 248, 1);
 
   @override
   void initState() {
-    GoalService goalService = GoalService.instance;
+    _goalService = GoalService.instance;
+    _goalService.addingGoals();
     setState(() {
-      goalService.addingGoals();
-      goalList = goalService.fetchGoalList();
+      _goalList = _goalService.fetchGoalList();
     });
     super.initState();
+  }
+
+  void onCardTapped(Goal goal) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoalDetailView(
+          goal: goal,
+        ),
+      ),
+    );
+    setState(() {
+      _goalList = _goalService.fetchGoalList();
+    });
+  }
+
+  void navigateToNewGoalScreen(Goal goal) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NewGoalScreen(
+          goal: goal,
+        ),
+      ),
+    );
   }
 
   @override
@@ -53,7 +78,10 @@ class _GoalsScreenState extends State<GoalsScreen> {
           title: const Text(
             "52 Weeks",
             style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
           actions: [
             Padding(
@@ -94,7 +122,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
   }
 
   Widget _goalScreenBody() {
-    if (goalList.isEmpty) {
+    if (_goalList.isEmpty) {
       return Column(
         children: [
           const SizedBox(height: 60),
@@ -141,11 +169,11 @@ class _GoalsScreenState extends State<GoalsScreen> {
           }),
         );
       } else {
-        newGoalList = _getGoalListAfterFilter();
+        _newGoalList = _getGoalListAfterFilter();
         return ListView.builder(
-          itemCount: newGoalList.length,
+          itemCount: _newGoalList.length,
           itemBuilder: ((context, index) {
-            Goal goal = newGoalList[index];
+            Goal goal = _newGoalList[index];
             return GoalCard(
               goal: goal,
               onCardTapped: onCardTapped,
@@ -157,47 +185,47 @@ class _GoalsScreenState extends State<GoalsScreen> {
   }
 
   List<dynamic> _prepareListItems() {
-    List<dynamic> listItems = [];
-    List<Goal> weeklyGoals = [];
-    List<Goal> monthlyGoals = [];
-    for (int i = 0; i < goalList.length; i++) {
-      if (goalList[i].savingsChoice == SavingsChoice.weekly) {
-        weeklyGoals.add(goalList[i]);
+    List<dynamic> _listItems = [];
+    List<Goal> _weeklyGoals = [];
+    List<Goal> _monthlyGoals = [];
+    for (int i = 0; i < _goalList.length; i++) {
+      if (_goalList[i].savingsChoice == SavingsChoice.weekly) {
+        _weeklyGoals.add(_goalList[i]);
       } else {
-        monthlyGoals.add(goalList[i]);
+        _monthlyGoals.add(_goalList[i]);
       }
     }
-    if (weeklyGoals.isNotEmpty) {
-      listItems.add("Weekly Goals");
-      listItems.addAll(weeklyGoals);
+    if (_weeklyGoals.isNotEmpty) {
+      _listItems.add("Weekly Goals");
+      _listItems.addAll(_weeklyGoals);
     }
-    if (monthlyGoals.isNotEmpty) {
-      listItems.add("Monthly Goals");
-      listItems.addAll(monthlyGoals);
+    if (_monthlyGoals.isNotEmpty) {
+      _listItems.add("Monthly Goals");
+      _listItems.addAll(_monthlyGoals);
     }
 
-    return listItems;
+    return _listItems;
   }
 
   List<Goal> _getGoalListAfterFilter() {
     if (filter == Filter.weekly) {
-      newGoalList.clear();
-      for (int i = 0; i < goalList.length; i++) {
-        if (goalList[i].savingsChoice == SavingsChoice.weekly) {
-          newGoalList.add(goalList[i]);
+      _newGoalList.clear();
+      for (int i = 0; i < _goalList.length; i++) {
+        if (_goalList[i].savingsChoice == SavingsChoice.weekly) {
+          _newGoalList.add(_goalList[i]);
         }
       }
     } else if (filter == Filter.monthly) {
-      newGoalList.clear();
-      for (int i = 0; i < goalList.length; i++) {
-        if (goalList[i].savingsChoice == SavingsChoice.monthly) {
-          newGoalList.add(goalList[i]);
+      _newGoalList.clear();
+      for (int i = 0; i < _goalList.length; i++) {
+        if (_goalList[i].savingsChoice == SavingsChoice.monthly) {
+          _newGoalList.add(_goalList[i]);
         }
       }
     } else {
-      return goalList;
+      return _goalList;
     }
-    return newGoalList;
+    return _newGoalList;
   }
 
   Widget _buildNavigateButton() {
@@ -205,7 +233,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
       backgroundColor: Colors.green,
       onPressed: () async {
         Goal goal = Goal(
-          id: goalList.length,
           name: "",
           savingsChoice: SavingsChoice.weekly,
           savingsType: SavingsType.constant,
@@ -218,37 +245,17 @@ class _GoalsScreenState extends State<GoalsScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => AddGoal(
-                goal: goal, navigateToNewGoalScreen: navigateToNewGoalScreen),
+              goal: goal,
+              navigateToNewGoalScreen: navigateToNewGoalScreen,
+            ),
           ),
         );
         setState(() {
-          goalService.postGoals(newGoal);
-          goalList = goalService.fetchGoalList();
+          _goalService.postGoals(newGoal);
+          _goalList = _goalService.fetchGoalList();
         });
       },
       child: const Icon(Icons.add, size: 40),
-    );
-  }
-
-  void onCardTapped(Goal goal) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GoalDetailView(goal: goal),
-      ),
-    );
-    setState(() {
-      goalList = goalService.fetchGoalList();
-    });
-  }
-
-  void navigateToNewGoalScreen(Goal goal) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => NewGoalScreen(
-          goal: goal,
-        ),
-      ),
     );
   }
 }

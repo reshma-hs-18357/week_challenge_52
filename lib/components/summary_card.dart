@@ -18,21 +18,6 @@ class SummaryCard extends StatelessWidget {
     String currentDay = DateFormat('EEEE').format(date);
     String startDateString = DateFormat('dd/MM/yyyy').format(goal.startDate);
     String endDateString = DateFormat('dd/MM/yyyy').format(goal.getEndDate());
-    double getFinalDeposit() {
-      if (goal.savingsChoice == SavingsChoice.weekly) {
-        if (goal.savingsType == SavingsType.constant) {
-          return goal.initialDeposit;
-        } else {
-          return 52 * goal.initialDeposit;
-        }
-      } else {
-        if (goal.savingsType == SavingsType.constant) {
-          return goal.initialDeposit;
-        } else {
-          return 12 * goal.initialDeposit;
-        }
-      }
-    }
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -142,7 +127,7 @@ class SummaryCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 1),
-                          Text('${getFinalDeposit()}'),
+                          Text('${goal.getFinalDeposit()}'),
                         ],
                       )
                     ],

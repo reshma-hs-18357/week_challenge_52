@@ -45,7 +45,7 @@ class NextButtonComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 46,
-      width: 140,
+      width: 158,
       child: textButton(),
     );
   }

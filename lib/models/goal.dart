@@ -1,7 +1,5 @@
-// ignore_for_file: non_constant_identifier_names
-
 class Goal {
-  int id;
+  int? id;
   String name;
   SavingsChoice savingsChoice;
   SavingsType savingsType;
@@ -11,7 +9,6 @@ class Goal {
   int upcomingWeekOrMonth;
 
   Goal({
-    required this.id,
     required this.name,
     required this.savingsChoice,
     required this.initialDeposit,
@@ -42,47 +39,48 @@ class Goal {
     }
   }
 
-  double getTotalSavings() {
-    double savings;
-    if (savingsChoice == SavingsChoice.weekly) {
-      if (savingsType == SavingsType.constant) {
-        savings = 52 * initialDeposit;
-        return savings;
-      } else {
-        savings = 26 * (2 * initialDeposit + 51 * initialDeposit);
-        return savings;
-      }
+  double getAmt(int i) {
+    int weekormonth;
+    if (i == 0) {
+      weekormonth = upcomingWeekOrMonth;
     } else {
-      if (savingsType == SavingsType.constant) {
-        savings = 12 * initialDeposit;
-        return savings;
+      if (savingsChoice == SavingsChoice.weekly) {
+        weekormonth = 52;
       } else {
-        savings = 6 * (2 * initialDeposit + 11 * initialDeposit);
-        return savings;
+        weekormonth = 12;
       }
+    }
+    if (savingsType == SavingsType.constant) {
+      savings = weekormonth * initialDeposit;
+      return savings;
+    } else {
+      savings = weekormonth /
+          2 *
+          (2 * initialDeposit + (weekormonth - 1) * initialDeposit);
+      return savings;
     }
   }
 
+  double getTotalSavings() {
+    return getAmt(1);
+  }
+
   double getTotalDepositedAmt() {
+    return getAmt(0);
+  }
+
+  double getFinalDeposit() {
     if (savingsChoice == SavingsChoice.weekly) {
       if (savingsType == SavingsType.constant) {
-        savings = (upcomingWeekOrMonth) * initialDeposit;
-        return savings;
+        return initialDeposit;
       } else {
-        savings = upcomingWeekOrMonth /
-            2 *
-            (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
-        return savings;
+        return 52 * initialDeposit;
       }
     } else {
       if (savingsType == SavingsType.constant) {
-        savings = (upcomingWeekOrMonth) * initialDeposit;
-        return savings;
+        return initialDeposit;
       } else {
-        savings = upcomingWeekOrMonth /
-            2 *
-            (2 * initialDeposit + (upcomingWeekOrMonth - 1) * initialDeposit);
-        return savings;
+        return 12 * initialDeposit;
       }
     }
   }
