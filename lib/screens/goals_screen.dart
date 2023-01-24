@@ -188,13 +188,19 @@ class _GoalsScreenState extends State<GoalsScreen> {
     List<dynamic> listItems = [];
     List<Goal> weeklyGoals = [];
     List<Goal> monthlyGoals = [];
-    for (int i = 0; i < _goalList.length; i++) {
-      if (_goalList[i].savingsChoice == SavingsChoice.weekly) {
-        weeklyGoals.add(_goalList[i]);
+    List<Goal> completedGoals = [];
+    for (Goal goal in _goalList) {
+      if (goal.getPercent() == 1) {
+        completedGoals.add(goal);
       } else {
-        monthlyGoals.add(_goalList[i]);
+        if (goal.savingsChoice == SavingsChoice.weekly) {
+          weeklyGoals.add(goal);
+        } else {
+          monthlyGoals.add(goal);
+        }
       }
     }
+
     if (weeklyGoals.isNotEmpty) {
       listItems.add("Weekly Goals");
       listItems.addAll(weeklyGoals);
@@ -202,6 +208,10 @@ class _GoalsScreenState extends State<GoalsScreen> {
     if (monthlyGoals.isNotEmpty) {
       listItems.add("Monthly Goals");
       listItems.addAll(monthlyGoals);
+    }
+    if (completedGoals.isNotEmpty) {
+      listItems.add("Completed Goals");
+      listItems.addAll(completedGoals);
     }
 
     return listItems;

@@ -71,7 +71,7 @@ class GoalCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
                 child: Text(
-                  "Rs.${goal.getTotalSavings()}",
+                  "Rs.${goal.savings}",
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -100,7 +100,7 @@ class GoalCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
                 child: Text(
-                  "Rs.${goal.getTotalDepositedAmt()} of Rs.${goal.getTotalSavings()}",
+                  "Rs.${goal.getTotalDepositedAmt()} of Rs.${goal.savings}",
                   style: const TextStyle(
                     fontSize: 12,
                     color: Color.fromRGBO(153, 153, 153, 1),
