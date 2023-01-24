@@ -185,26 +185,26 @@ class _GoalsScreenState extends State<GoalsScreen> {
   }
 
   List<dynamic> _prepareListItems() {
-    List<dynamic> _listItems = [];
-    List<Goal> _weeklyGoals = [];
-    List<Goal> _monthlyGoals = [];
+    List<dynamic> listItems = [];
+    List<Goal> weeklyGoals = [];
+    List<Goal> monthlyGoals = [];
     for (int i = 0; i < _goalList.length; i++) {
       if (_goalList[i].savingsChoice == SavingsChoice.weekly) {
-        _weeklyGoals.add(_goalList[i]);
+        weeklyGoals.add(_goalList[i]);
       } else {
-        _monthlyGoals.add(_goalList[i]);
+        monthlyGoals.add(_goalList[i]);
       }
     }
-    if (_weeklyGoals.isNotEmpty) {
-      _listItems.add("Weekly Goals");
-      _listItems.addAll(_weeklyGoals);
+    if (weeklyGoals.isNotEmpty) {
+      listItems.add("Weekly Goals");
+      listItems.addAll(weeklyGoals);
     }
-    if (_monthlyGoals.isNotEmpty) {
-      _listItems.add("Monthly Goals");
-      _listItems.addAll(_monthlyGoals);
+    if (monthlyGoals.isNotEmpty) {
+      listItems.add("Monthly Goals");
+      listItems.addAll(monthlyGoals);
     }
 
-    return _listItems;
+    return listItems;
   }
 
   List<Goal> _getGoalListAfterFilter() {
@@ -261,3 +261,5 @@ class _GoalsScreenState extends State<GoalsScreen> {
 }
 
 enum Filter { all, weekly, monthly }
+
+enum AccessButtonsEnum { back, next }

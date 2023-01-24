@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/service/goal_service.dart';
 
@@ -101,6 +100,10 @@ class DashboardCalulations {
     quotes.add(
         "Small amounts saved daily add up to huge investments in the end.");
     quotes.add("Know what you own, and know why you own it");
+    quotes.add(
+        "Do not save what is left after spending, but spend what is left after saving");
+    quotes.add(
+        "The habit of saving is itself an education; it fosters every virtue, teaches self-denial, cultivates the sense of order, trains to forethought, and so broadens the mind");
     final random = Random();
     var element = quotes[random.nextInt(quotes.length)];
     return element;

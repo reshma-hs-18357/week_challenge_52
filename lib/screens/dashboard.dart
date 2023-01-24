@@ -37,15 +37,41 @@ class _DashboardState extends State<Dashboard> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text(
-                    dc.randomQuote(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontStyle: FontStyle.italic,
-                      color: Color.fromARGB(255, 64, 1, 75),
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: const [
+                          ImageIcon(
+                            AssetImage(
+                              'assets/images/quotation-mark-icon.png',
+                            ),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        dc.randomQuote(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic,
+                          color: Color.fromARGB(255, 64, 1, 75),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: const [
+                          Spacer(),
+                          ImageIcon(
+                            AssetImage(
+                              'assets/images/quotation-mark-right-icon.png',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),

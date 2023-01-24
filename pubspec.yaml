@@ -82,6 +82,8 @@ flutter:
     - assets/images/cap.png
     - assets/images/trophy.png
     - assets/images/completed.png
+    - assets/images/quotation-mark-icon.png
+    - assets/images/quotation-mark-right-icon.png
    
 
   # An image asset can refer to one or more resolution-specific "variants", see

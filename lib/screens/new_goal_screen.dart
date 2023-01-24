@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:week_challenge_52/components/access_buttons.dart';
 import 'package:week_challenge_52/components/back_button.dart';
 import 'package:week_challenge_52/components/input_initial_deposit.dart';
 import 'package:week_challenge_52/components/input_goal_name.dart';
@@ -9,6 +10,7 @@ import 'package:week_challenge_52/components/select_goal_type.dart';
 import 'package:week_challenge_52/components/step_indicator.dart';
 import 'package:week_challenge_52/components/summary_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
+import 'package:week_challenge_52/screens/goals_screen.dart';
 
 class NewGoalScreen extends StatefulWidget {
   final Goal goal;
@@ -74,7 +76,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     index != 4 && index != 0
-                        ? BackButtonComponent(
+                        ? AccessButton(
                             onPressed: () {
                               setState(() {
                                 back = true;
@@ -83,12 +85,12 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
                                 _returnComponents(index, back);
                               });
                             },
-                            index: index)
+                            index: index,
+                            accessButton: AccessButtonsEnum.back,
+                          )
                         : const Text(""),
                     index != 4
-                        ? NextButtonComponent(
-                            isButtonEnabled: valid,
-                            index: index,
+                        ? AccessButton(
                             onPressed: () {
                               setState(() {
                                 index += 1;
@@ -97,7 +99,11 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
                                 valid =
                                     index == 3 || back == true ? true : false;
                               });
-                            })
+                            },
+                            index: index,
+                            accessButton: AccessButtonsEnum.next,
+                            isButtonEnabled: valid,
+                          )
                         : const Text(""),
                   ],
                 ),
