@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:week_challenge_52/components/heading_component.dart';
+import 'package:week_challenge_52/components/goal_choice_card.dart';
 import 'package:week_challenge_52/models/goal.dart';
 
 class AddGoal extends StatelessWidget {
@@ -46,10 +48,8 @@ class AddGoal extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              const Text(
-                "How would you like to create your goal?",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+              const HeadingComponent(
+                  title: "How would you like to create your goal?"),
               const SizedBox(height: 10),
               const Text(
                 "Choose how often you want to save money to reach your goal",
@@ -61,49 +61,8 @@ class AddGoal extends StatelessWidget {
                   goal.savingsChoice = SavingsChoice.weekly;
                   navigateToNewGoalScreen(goal);
                 },
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(80)),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        Column(
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 16, top: 16, right: 150),
-                              child: Text(
-                                "Weekly",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.start,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(16, 10, 4, 16),
-                              child: SizedBox(
-                                height: 60,
-                                width: 202,
-                                child: Text(
-                                  "Save every week, for 52 weeks, an amount determined by you",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Image.asset(
-                          'assets/images/money2.png',
-                          height: 136,
-                          width: 95,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ],
-                    ),
-                  ),
+                child: const GoalChoiceCard(
+                  title: "Weekly",
                 ),
               ),
               const SizedBox(height: 16),
@@ -112,49 +71,8 @@ class AddGoal extends StatelessWidget {
                   goal.savingsChoice = SavingsChoice.monthly;
                   navigateToNewGoalScreen(goal);
                 },
-                child: Card(
-                  color: const Color.fromRGBO(77, 182, 77, 1),
-                  elevation: 10,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(80),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Column(
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(16, 16, 140, 5),
-                              child: Text(
-                                "Monthly",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                                textAlign: TextAlign.start,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(16, 5, 10, 16),
-                              child: SizedBox(
-                                height: 60,
-                                width: 200,
-                                child: Text(
-                                  "Save every month, for 12 months, an amount determined by you",
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Image.asset('assets/images/money3.png',
-                            height: 130, width: 88, fit: BoxFit.fitHeight),
-                      ],
-                    ),
-                  ),
+                child: const GoalChoiceCard(
+                  title: "Monthly",
                 ),
               ),
             ],

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_challenge_52/components/access_buttons.dart';
-import 'package:week_challenge_52/components/back_button.dart';
+import 'package:week_challenge_52/temp/back_button.dart';
 import 'package:week_challenge_52/components/input_initial_deposit.dart';
 import 'package:week_challenge_52/components/input_goal_name.dart';
 import 'package:week_challenge_52/components/input_starting_date.dart';
-import 'package:week_challenge_52/components/next_button.dart';
 import 'package:week_challenge_52/components/select_goal_type.dart';
 import 'package:week_challenge_52/components/step_indicator.dart';
 import 'package:week_challenge_52/components/summary_card.dart';

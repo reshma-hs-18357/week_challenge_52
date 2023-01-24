@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/dashboard_card1.dart';
 import 'package:week_challenge_52/components/dashboard_card2.dart';
+import 'package:week_challenge_52/components/random_quote.dart';
 import 'package:week_challenge_52/service/dashboard_calculations.dart';
 
 class Dashboard extends StatefulWidget {
@@ -34,46 +35,8 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: const [
-                          ImageIcon(
-                            AssetImage(
-                              'assets/images/quotation-mark-icon.png',
-                            ),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        dc.randomQuote(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontStyle: FontStyle.italic,
-                          color: Color.fromARGB(255, 64, 1, 75),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: const [
-                          Spacer(),
-                          ImageIcon(
-                            AssetImage(
-                              'assets/images/quotation-mark-right-icon.png',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              RandomQuote(
+                randomQuote: dc.randomQuote(),
               ),
               const SizedBox(height: 10),
               const Text(
