@@ -46,8 +46,9 @@ class _SelectGoalTypeState extends State<SelectGoalType> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const HeadingComponent(
-            title: "How do you want to save your money each week ?",
+          HeadingComponent(
+            title:
+                "How do you want to save your money each ${goal.savingsChoiceText().toLowerCase().split('ly').first} ?",
           ),
           const SizedBox(height: 24),
           Row(

@@ -27,8 +27,10 @@ class _GoalProgressState extends State<GoalProgress> {
             right: 50,
             child: CircularPercentIndicator(
               radius: 120.0,
-              animateFromLastPercent: true,
+              animateFromLastPercent:
+                  widget.goalProgressModel.percent < 1 ? true : false,
               animation: true,
+              // widget.goalProgressModel.percent < 1 ? true : false,
               lineWidth: 15.0,
               percent: widget.goalProgressModel.percent,
               arcBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),

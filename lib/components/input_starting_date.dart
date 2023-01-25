@@ -21,7 +21,6 @@ class _InputStartDateState extends State<InputStartDate> {
 
   @override
   void initState() {
-    widget.goal.savings = 0;
     String showDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
     datecntrl.text = showDate;
     super.initState();

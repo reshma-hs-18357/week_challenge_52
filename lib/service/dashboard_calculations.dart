@@ -10,7 +10,7 @@ class DashboardCalulations {
     double overallSavings = 0;
     goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
-      overallSavings += goal.getTotalSavings();
+      overallSavings += goal.savings;
     }
     return overallSavings;
   }

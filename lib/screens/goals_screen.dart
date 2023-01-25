@@ -17,14 +17,13 @@ class _GoalsScreenState extends State<GoalsScreen> {
   List<Goal> _goalList = [];
   List<Goal> _newGoalList = [];
   late GoalService _goalService;
-
   Filter filter = Filter.all;
   static Color bgColor = const Color.fromRGBO(242, 239, 248, 1);
 
   @override
   void initState() {
     _goalService = GoalService.instance;
-    _goalService.addingGoals();
+    _addingGoals();
     setState(() {
       _goalList = _goalService.fetchGoalList();
     });
@@ -268,6 +267,49 @@ class _GoalsScreenState extends State<GoalsScreen> {
       },
       child: const Icon(Icons.add, size: 40),
     );
+  }
+
+  void _addingGoals() {
+    Goal goal1 = Goal(
+      name: "weekconstant",
+      savingsChoice: SavingsChoice.weekly,
+      savingsType: SavingsType.constant,
+      initialDeposit: 100.0,
+      savings: 5200,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal1);
+    Goal goal2 = Goal(
+      name: "weekprogressive",
+      savingsChoice: SavingsChoice.weekly,
+      savingsType: SavingsType.progressive,
+      initialDeposit: 100.0,
+      savings: 137800,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal2);
+    Goal goal3 = Goal(
+      name: "monthconstant",
+      savingsChoice: SavingsChoice.monthly,
+      savingsType: SavingsType.constant,
+      initialDeposit: 100.0,
+      savings: 1200,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal3);
+    Goal goal4 = Goal(
+      name: "monthprogressive",
+      savingsChoice: SavingsChoice.monthly,
+      savingsType: SavingsType.progressive,
+      initialDeposit: 100.0,
+      savings: 7800,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal4);
   }
 }
 

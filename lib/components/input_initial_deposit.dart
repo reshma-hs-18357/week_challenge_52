@@ -33,20 +33,12 @@ class _InputInitialDepositState extends State<InputInitialDeposit> {
     super.initState();
   }
 
-  String getSavingsChoice() {
-    if (goal.savingsChoiceText() == "Weekly") {
-      return "weeks";
-    } else {
-      return "months";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const HeadingComponent(title: "How much do you want to save per week?"),
+        const HeadingComponent(title: "How much do you want to save per ?"),
         const SizedBox(height: 24),
         SizedBox(
           height: 48,
@@ -84,7 +76,7 @@ class _InputInitialDepositState extends State<InputInitialDeposit> {
               TextSpan(
                 text:
                     '''The chosen values will be ${goal.savingsTypeText().toLowerCase()} over the 
-     ${getSavingsChoice()}''',
+      ${goal.savingsChoiceText().toLowerCase().split('ly').first}s ''',
               )
             ],
           ),
