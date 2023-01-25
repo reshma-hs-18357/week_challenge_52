@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RandomQuote extends StatelessWidget {
   final String randomQuote;
@@ -22,15 +23,19 @@ class RandomQuote extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 5),
-            Text(
-              randomQuote,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 20,
-                fontStyle: FontStyle.italic,
-                color: Color.fromARGB(255, 64, 1, 75),
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 15,
+                right: 15,
               ),
+              child: Text(randomQuote,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.artifika(
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             const SizedBox(height: 5),
             Row(

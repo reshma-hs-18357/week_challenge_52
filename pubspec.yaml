@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.17.0
   test: ^1.21.4
   dart_quote: ^0.0.2
+  google_fonts: ^3.0.1
   
 
 

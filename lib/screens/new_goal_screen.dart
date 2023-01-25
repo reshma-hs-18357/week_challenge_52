@@ -163,6 +163,7 @@ class _NewGoalScreenState extends State<NewGoalScreen> {
     } else {
       setState(() {
         valid = false;
+        goal.savings = 0;
       });
     }
   }
