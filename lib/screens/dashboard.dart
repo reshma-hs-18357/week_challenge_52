@@ -7,22 +7,23 @@ import 'package:week_challenge_52/models/dashboard_calculations.dart';
 import 'package:week_challenge_52/service/goal_service.dart';
 
 class Dashboard extends StatefulWidget {
-  final List<Goal> goalList;
-  const Dashboard({super.key, required this.goalList});
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  late List<Goal> goalList;
+  late List<Goal> _goalList;
   late GoalService _goalService;
   late DashboardCalulations dc;
 
   @override
   void initState() {
-    goalList = widget.goalList;
-    dc = DashboardCalulations(goalList: goalList);
+    _goalService = GoalService.instance;
+    _goalService.addingGoals();
+    _goalList = _goalService.fetchGoalList();
+    dc = DashboardCalulations(goalList: _goalList);
     super.initState();
   }
 
