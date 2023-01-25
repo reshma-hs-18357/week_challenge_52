@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:week_challenge_52/models/goal.dart';
-import 'package:week_challenge_52/service/goal_service.dart';
 
 class DashboardCalulations {
-  GoalService goalService = GoalService.instance;
-  List<Goal> goalList = [];
+  final List<Goal> goalList;
+  DashboardCalulations({
+    required this.goalList,
+  });
 
   double overallSavings() {
     double overallSavings = 0;
-    goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
       overallSavings += goal.savings;
     }
@@ -17,7 +17,6 @@ class DashboardCalulations {
 
   double overallDeposit() {
     double overallDeposit = 0;
-    goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
       overallDeposit += goal.getTotalDepositedAmt();
     }
@@ -26,7 +25,6 @@ class DashboardCalulations {
 
   double overallMonthlyDeposit() {
     double overallMonthlyDeposit = 0;
-    goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
       if (goal.savingsChoice == SavingsChoice.monthly) {
         overallMonthlyDeposit += goal.getTotalDepositedAmt();
@@ -40,13 +38,11 @@ class DashboardCalulations {
   }
 
   int totalGoalCount() {
-    goalList = goalService.fetchGoalList();
     return goalList.length;
   }
 
   int completedGoalCount() {
     int completedGoalcount = 0;
-    goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
       if (goal.getPercent() == 1) {
         completedGoalcount += 1;
@@ -57,7 +53,6 @@ class DashboardCalulations {
 
   int totalMonthlyGoalCount() {
     int totalMonthlyGoalCount = 0;
-    goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
       if (goal.savingsChoice == SavingsChoice.monthly) {
         totalMonthlyGoalCount += 1;
@@ -72,7 +67,6 @@ class DashboardCalulations {
 
   int completedMonthlyGoalCount() {
     int completedMonthlyGoalCount = 0;
-    goalList = goalService.fetchGoalList();
     for (Goal goal in goalList) {
       if (goal.getPercent() == 1 &&
           goal.savingsChoice == SavingsChoice.monthly) {

@@ -2,17 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:week_challenge_52/components/dashboard_card1.dart';
 import 'package:week_challenge_52/components/dashboard_card2.dart';
 import 'package:week_challenge_52/components/random_quote.dart';
-import 'package:week_challenge_52/service/dashboard_calculations.dart';
+import 'package:week_challenge_52/models/goal.dart';
+import 'package:week_challenge_52/models/dashboard_calculations.dart';
+import 'package:week_challenge_52/service/goal_service.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final List<Goal> goalList;
+  const Dashboard({super.key, required this.goalList});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  DashboardCalulations dc = DashboardCalulations();
+  late List<Goal> goalList;
+  late GoalService _goalService;
+  late DashboardCalulations dc;
+
+  @override
+  void initState() {
+    goalList = widget.goalList;
+    dc = DashboardCalulations(goalList: goalList);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,5 +146,48 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
     );
+  }
+
+  void _addingGoals() {
+    Goal goal1 = Goal(
+      name: "weekconstant",
+      savingsChoice: SavingsChoice.weekly,
+      savingsType: SavingsType.constant,
+      initialDeposit: 100.0,
+      savings: 5200,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal1);
+    Goal goal2 = Goal(
+      name: "weekprogressive",
+      savingsChoice: SavingsChoice.weekly,
+      savingsType: SavingsType.progressive,
+      initialDeposit: 100.0,
+      savings: 137800,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal2);
+    Goal goal3 = Goal(
+      name: "monthconstant",
+      savingsChoice: SavingsChoice.monthly,
+      savingsType: SavingsType.constant,
+      initialDeposit: 100.0,
+      savings: 1200,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal3);
+    Goal goal4 = Goal(
+      name: "monthprogressive",
+      savingsChoice: SavingsChoice.monthly,
+      savingsType: SavingsType.progressive,
+      initialDeposit: 100.0,
+      savings: 7800,
+      startDate: DateTime.now(),
+      upcomingWeekOrMonth: 0,
+    );
+    _goalService.postGoals(goal4);
   }
 }

@@ -177,7 +177,6 @@ class _GoalDetailViewState extends State<GoalDetailView> {
                     listItems.removeAt(1);
                     listItems.removeAt(listItems.length - 1);
                   }
-                  print(goal.upcomingWeekOrMonth);
                 });
               },
             );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:week_challenge_52/models/goal.dart';
 import 'package:week_challenge_52/screens/about_screen.dart';
 import 'package:week_challenge_52/screens/dashboard.dart';
 import 'package:week_challenge_52/screens/goals_screen.dart';
+import 'package:week_challenge_52/service/goal_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 1;
+  late GoalService goalService;
+  late List<Goal> goalList;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // Widget _returnSelectedIndexWidget(int selectedIndex) {
-  //   if (_selectedIndex == 0) {
-  //     return const Dashboard();
-  //   } else if (selectedIndex == 1) {
-  //     return const GoalsScreen();
-  //   } else {
-  //     return const AboutScreen();
-  //   }
-  // }
 
   void _onItemTapped(int index) {
     setState(() {
