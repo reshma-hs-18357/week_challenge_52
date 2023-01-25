@@ -14,10 +14,6 @@ class AccessButton extends StatelessWidget {
     required this.accessButton,
   });
 
-  TextStyle textStyle() {
-    return const TextStyle(fontSize: 14);
-  }
-
   TextButton textButton() {
     if (accessButton == AccessButtonsEnum.next) {
       return TextButton(
@@ -37,10 +33,11 @@ class AccessButton extends StatelessWidget {
           child: Text(
             "Next",
             style: TextStyle(
-                fontSize: 18,
-                color: (isButtonEnabled == true)
-                    ? Colors.white
-                    : const Color.fromRGBO(102, 102, 102, 1)),
+              fontSize: 18,
+              color: (isButtonEnabled == true)
+                  ? Colors.white
+                  : const Color.fromRGBO(102, 102, 102, 1),
+            ),
           ),
         ),
       );
@@ -48,14 +45,15 @@ class AccessButton extends StatelessWidget {
       return TextButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(const Color.fromRGBO(242, 239, 248, 1)),
+          backgroundColor: MaterialStateProperty.all(
+            const Color.fromRGBO(242, 239, 248, 1),
+          ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
               side: BorderSide(
                 color: (index != 0)
-                    ? (const Color.fromRGBO(21, 131, 36, 1))
+                    ? const Color.fromRGBO(21, 131, 36, 1)
                     : const Color.fromRGBO(242, 239, 248, 1),
               ),
             ),
@@ -65,7 +63,9 @@ class AccessButton extends StatelessWidget {
           child: Text(
             "Back",
             style: TextStyle(
-                fontSize: 18, color: (Color.fromRGBO(21, 131, 36, 1))),
+              fontSize: 18,
+              color: (Color.fromRGBO(21, 131, 36, 1)),
+            ),
           ),
         ),
       );

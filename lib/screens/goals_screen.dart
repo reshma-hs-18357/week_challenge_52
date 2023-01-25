@@ -199,7 +199,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
         }
       }
     }
-
     if (weeklyGoals.isNotEmpty) {
       listItems.add("Weekly Goals");
       listItems.addAll(weeklyGoals);

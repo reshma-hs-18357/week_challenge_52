@@ -14,6 +14,7 @@ class GoalProgress extends StatefulWidget {
 }
 
 class _GoalProgressState extends State<GoalProgress> {
+  static Color green = const Color.fromRGBO(16, 159, 40, 1);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,16 +28,16 @@ class _GoalProgressState extends State<GoalProgress> {
             right: 50,
             child: CircularPercentIndicator(
               radius: 120.0,
-              animateFromLastPercent:
-                  widget.goalProgressModel.percent < 1 ? true : false,
+              animateFromLastPercent: true,
               animation: true,
-              // widget.goalProgressModel.percent < 1 ? true : false,
               lineWidth: 15.0,
               percent: widget.goalProgressModel.percent,
-              arcBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),
+              arcBackgroundColor: widget.goalProgressModel.percent < 1
+                  ? const Color.fromRGBO(217, 217, 217, 1)
+                  : green,
               arcType: ArcType.FULL,
               circularStrokeCap: CircularStrokeCap.butt,
-              progressColor: const Color.fromRGBO(16, 159, 40, 1),
+              progressColor: green,
               restartAnimation: true,
             ),
           ),
@@ -47,10 +48,11 @@ class _GoalProgressState extends State<GoalProgress> {
             child: Center(
               child: Text(
                 "${widget.goalProgressModel.getPercentValue()} %",
-                style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(16, 159, 40, 1)),
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: green,
+                ),
               ),
             ),
           ),

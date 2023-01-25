@@ -16,7 +16,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _returnSelectedIndexWidget(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [
+          Dashboard(),
+          GoalsScreen(),
+          AboutScreen(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30,
         items: const [
@@ -41,15 +48,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _returnSelectedIndexWidget(int selectedIndex) {
-    if (_selectedIndex == 0) {
-      return const Dashboard();
-    } else if (selectedIndex == 1) {
-      return const GoalsScreen();
-    } else {
-      return const AboutScreen();
-    }
-  }
+  // Widget _returnSelectedIndexWidget(int selectedIndex) {
+  //   if (_selectedIndex == 0) {
+  //     return const Dashboard();
+  //   } else if (selectedIndex == 1) {
+  //     return const GoalsScreen();
+  //   } else {
+  //     return const AboutScreen();
+  //   }
+  // }
 
   void _onItemTapped(int index) {
     setState(() {

@@ -16,7 +16,12 @@ class DashboardCard1 extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          20,
+          16,
+          20,
+        ),
         child: Row(
           children: [
             Text(
