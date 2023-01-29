@@ -14,16 +14,17 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  late List<Goal> _goalList;
+  List<Goal> goalList = [];
   late GoalService _goalService;
   late DashboardCalulations dc;
 
   @override
   void initState() {
+    print("hi from dashboard");
     _goalService = GoalService.instance;
     _goalService.addingGoals();
-    _goalList = _goalService.fetchGoalList();
-    dc = DashboardCalulations(goalList: _goalList);
+    goalList = _goalService.fetchGoalList();
+    dc = DashboardCalulations(goalList: goalList);
     super.initState();
   }
 

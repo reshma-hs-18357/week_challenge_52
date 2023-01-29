@@ -2,10 +2,8 @@ import 'dart:math';
 import 'package:week_challenge_52/models/goal.dart';
 
 class DashboardCalulations {
-  final List<Goal> goalList;
-  DashboardCalulations({
-    required this.goalList,
-  });
+  List<Goal> goalList;
+  DashboardCalulations({required this.goalList});
 
   double overallSavings() {
     double overallSavings = 0;
