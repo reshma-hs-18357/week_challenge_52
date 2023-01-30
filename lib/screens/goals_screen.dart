@@ -22,8 +22,8 @@ class _GoalsScreenState extends State<GoalsScreen> {
 
   @override
   void initState() {
-    print("hi from goals screen");
     _goalService = GoalService.instance;
+    _goalService.addingGoals();
     setState(() {
       _goalList = _goalService.fetchGoalList();
     });

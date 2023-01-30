@@ -13,20 +13,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 1;
+  late int _selectedIndex;
   late GoalService goalService;
   late List<Goal> goalList;
+  late List<Widget> _screens;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    _selectedIndex = 1;
+    _screens = const [
+      Dashboard(),
+      GoalsScreen(),
+      AboutScreen(),
+    ];
+    _pageController = PageController(initialPage: _selectedIndex);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [
-          Dashboard(),
-          GoalsScreen(),
-          AboutScreen(),
-        ],
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30,
@@ -55,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.jumpToPage(index);
     });
   }
 }

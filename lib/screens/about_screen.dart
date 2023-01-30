@@ -28,7 +28,8 @@ class AboutScreen extends StatelessWidget {
               color: const Color.fromARGB(255, 249, 247, 251),
               elevation: 30,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Center(
                 child: Column(
                   children: [
