@@ -146,6 +146,7 @@ class _GoalDetailViewState extends State<GoalDetailView> {
               onTapped: () {
                 setState(() {
                   goal.upcomingWeekOrMonth++;
+                  print(goal.upcomingWeekOrMonth);
                   if (goal.getPercent() < 1) {
                     remainingWeeksorMonths[0].weekMonthModelType =
                         WeekMonthModelType.upcoming;
@@ -190,8 +191,13 @@ class _GoalDetailViewState extends State<GoalDetailView> {
     if (completedOpen == false) {
       listItems.addAll(completedWeeksorMonths);
     }
+    if (goal.upcomingWeekOrMonth != 11 &&
+            goal.savingsChoice == SavingsChoice.monthly ||
+        goal.upcomingWeekOrMonth != 51 &&
+            goal.savingsChoice == SavingsChoice.weekly) {
+      listItems.add("Remaining Deposit");
+    }
 
-    listItems.add("Remaining Deposit");
     if (remainingOpen == false) {
       listItems.addAll(remainingWeeksorMonths);
     }

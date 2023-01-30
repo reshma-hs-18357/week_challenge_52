@@ -39,6 +39,7 @@ class _GoalProgressState extends State<GoalProgress> {
               circularStrokeCap: CircularStrokeCap.butt,
               progressColor: green,
               restartAnimation: true,
+              animationDuration: 1000,
             ),
           ),
           Positioned(

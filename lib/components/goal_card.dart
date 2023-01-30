@@ -83,18 +83,21 @@ class GoalCard extends StatelessWidget {
                 animateFromLastPercent: true,
                 percent: goal.getPercent(),
                 barRadius: const Radius.circular(10),
-                center: Row(
-                  children: [
-                    const Spacer(),
-                    Text(
-                      "${(goal.getPercent() * 100).toInt()}%",
-                      style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      width: 1,
-                    )
-                  ],
+                center: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      Text(
+                        "${(goal.getPercent() * 100).toInt()}%",
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 1,
+                      )
+                    ],
+                  ),
                 ),
               ),
               Padding(

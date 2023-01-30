@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class StepIndicator extends StatelessWidget {
+class StepIndicator extends StatefulWidget {
   final int step;
   const StepIndicator({
     super.key,
     required this.step,
   });
 
+  @override
+  State<StepIndicator> createState() => _StepIndicatorState();
+}
+
+class _StepIndicatorState extends State<StepIndicator> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,7 +21,7 @@ class StepIndicator extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 32, 28, 6),
           child: Text(
-            "Step $step of 4",
+            "Step ${widget.step} of 4",
             style: const TextStyle(
               fontSize: 14,
               color: Color.fromRGBO(102, 102, 102, 1),
@@ -31,8 +36,10 @@ class StepIndicator extends StatelessWidget {
             backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
             progressColor: const Color.fromRGBO(77, 182, 77, 1),
             animateFromLastPercent: true,
-            percent: step / 4,
+            animation: true,
+            percent: widget.step / 4,
             barRadius: const Radius.circular(10),
+            animationDuration: 500,
           ),
         )
       ],

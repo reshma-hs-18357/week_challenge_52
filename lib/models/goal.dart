@@ -40,17 +40,7 @@ class Goal {
     }
   }
 
-  double getAmt(int i) {
-    int weekormonth;
-    if (i == 0) {
-      weekormonth = upcomingWeekOrMonth;
-    } else {
-      if (savingsChoice == SavingsChoice.weekly) {
-        weekormonth = 52;
-      } else {
-        weekormonth = 12;
-      }
-    }
+  double getAmt(int weekormonth) {
     if (savingsType == SavingsType.constant) {
       savings = weekormonth * initialDeposit;
       return savings;
@@ -63,11 +53,17 @@ class Goal {
   }
 
   double getTotalSavings() {
-    return getAmt(1);
+    int weekormonth;
+    if (savingsChoice == SavingsChoice.weekly) {
+      weekormonth = 52;
+    } else {
+      weekormonth = 12;
+    }
+    return getAmt(weekormonth);
   }
 
   double getTotalDepositedAmt() {
-    return getAmt(0);
+    return getAmt(upcomingWeekOrMonth);
   }
 
   double getFinalDeposit() {

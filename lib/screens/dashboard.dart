@@ -20,7 +20,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
-    print("hi from dashboard");
     _goalService = GoalService.instance;
     setState(() {
       goalList = _goalService.fetchGoalList();
